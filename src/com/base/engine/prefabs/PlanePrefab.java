@@ -1,5 +1,4 @@
 /*
- * Copyright (C) 2014 Benny Bobaganoosh
  * Copyright (C) 2015 CelloCodez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,14 +14,18 @@
  * limitations under the License.
  */
 
-package com.base.game;
+package com.base.engine.prefabs;
 
-import com.base.engine.core.CoreEngine;
+import com.base.engine.components.MeshRenderer;
+import com.base.engine.core.GameObject;
+import com.base.engine.rendering.Mesh;
 
-public class Main {
-	public static void main(String[] args) {
-		CoreEngine engine = new CoreEngine(1024, 768, 60, new PhysicsTestGame());
-		engine.CreateWindow("Modded 3D Game Engine");
-		engine.Start();
+public class PlanePrefab extends GameObject {
+	
+	public PlanePrefab() {
+		super();
+		Mesh mesh = new Mesh("plane.obj");
+		AddComponent(new MeshRenderer(mesh, new DefaultMaterial()));
 	}
+	
 }
