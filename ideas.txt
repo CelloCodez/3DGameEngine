@@ -1,0 +1,11 @@
+Ideas/Notes:
+
+Game engine!
+
+Things to do:
+
+Physics
+Sound
+Prefabs
+3D Picking
+(Minimal) Scripting
