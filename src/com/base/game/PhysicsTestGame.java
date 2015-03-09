@@ -21,83 +21,29 @@ import com.base.engine.components.Camera;
 import com.base.engine.components.DirectionalLight;
 import com.base.engine.components.FreeLook;
 import com.base.engine.components.FreeMove;
-import com.base.engine.components.MeshRenderer;
-import com.base.engine.components.PointLight;
-import com.base.engine.components.SpotLight;
 import com.base.engine.core.Game;
 import com.base.engine.core.GameObject;
 import com.base.engine.core.Matrix4f;
 import com.base.engine.core.Quaternion;
 import com.base.engine.core.Vector3f;
 import com.base.engine.prefabs.PlanePrefab;
-import com.base.engine.rendering.Attenuation;
-import com.base.engine.rendering.Material;
-import com.base.engine.rendering.Mesh;
-import com.base.engine.rendering.Texture;
 import com.base.engine.rendering.Window;
 
 public class PhysicsTestGame extends Game {
 	public void Init() {
-		Mesh mesh = new Mesh("plane3.obj");
-		Material material2 = new Material(new Texture("bricks.jpg"), 1, 8, new Texture("bricks_normal.jpg"), new Texture("bricks_disp.png"), 0.03f, -0.5f);
 		
-		Material material = new Material(new Texture("bricks2.jpg"), 1, 8, new Texture("bricks2_normal.png"), new Texture("bricks2_disp.jpg"), 0.04f, -1.0f);
+		GameObject lightContainer = new GameObject();
+		lightContainer.AddComponent(new DirectionalLight(new Vector3f(1f, 1f, 1f), 0.2f));
+		lightContainer.GetTransform().SetRot(new Quaternion(new Vector3f(1, 0, 0), (float) Math.toRadians(-45)));
+		AddObject(lightContainer);
 		
-		Mesh tempMesh = new Mesh("monkey3.obj");
-		
-		MeshRenderer meshRenderer = new MeshRenderer(mesh, material);
-		
-		GameObject planeObject = new GameObject();
-		planeObject.AddComponent(meshRenderer);
-		planeObject.GetTransform().GetPos().Set(0, -1, 5);
-		
-		GameObject directionalLightObject = new GameObject();
-		DirectionalLight directionalLight = new DirectionalLight(new Vector3f(1, 1, 1), 0.5f);
-		
-		directionalLightObject.AddComponent(directionalLight);
-		
-		GameObject pointLightObject = new GameObject();
-		pointLightObject.AddComponent(new PointLight(new Vector3f(0, 1, 0), 0.4f, new Attenuation(0, 0, 1)));
-		
-		SpotLight spotLight = new SpotLight(new Vector3f(0, 1, 1), 0.4f, new Attenuation(0, 0, 0.1f), 0.7f);
-		
-		GameObject spotLightObject = new GameObject();
-		spotLightObject.AddComponent(spotLight);
-		
-		spotLightObject.GetTransform().GetPos().Set(5, 0, 5);
-		spotLightObject.GetTransform().SetRot(new Quaternion(new Vector3f(0, 1, 0), (float) Math.toRadians(90.0f)));
-		
-		AddObject(planeObject);
-		AddObject(directionalLightObject);
-		AddObject(pointLightObject);
-		AddObject(spotLightObject);
-		
-		// Prefab testing
 		GameObject prefab = new PlanePrefab();
-		prefab.GetTransform().SetScale(new Vector3f(5, 0, 5));
-		prefab.GetTransform().SetPos(new Vector3f(10, -1, 10));
-		GameObject lightObject = new GameObject();
-		PointLight pointLight = new PointLight(new Vector3f(0, 1, 0), 0.5f, new Attenuation(0, 0, 1f));
-		lightObject.AddComponent(pointLight);
-		lightObject.GetTransform().SetPos(new Vector3f(10, 2, 10));
-		lightObject.AddComponent(new SineFloatComponent());
+		prefab.GetTransform().SetScale(new Vector3f(5, 1, 5));
 		AddObject(prefab);
-		AddObject(lightObject);
 		
-		GameObject testMesh3 = new GameObject().AddComponent(new LookAtComponent()).AddComponent(new MeshRenderer(tempMesh, material));
-		
-		AddObject(
-		//AddObject(
-		new GameObject().AddComponent(new FreeLook(0.5f)).AddComponent(new FreeMove(10.0f))
-				.AddComponent(new Camera(new Matrix4f().InitPerspective((float) Math.toRadians(70.0f), (float) Window.GetWidth() / (float) Window.GetHeight(), 0.01f, 1000.0f))));
-		
-		AddObject(testMesh3);
-		
-		testMesh3.GetTransform().GetPos().Set(5, 5, 5);
-		testMesh3.GetTransform().SetRot(new Quaternion(new Vector3f(0, 1, 0), (float) Math.toRadians(-70.0f)));
-		
-		AddObject(new GameObject().AddComponent(new MeshRenderer(new Mesh("monkey3.obj"), material2)));
-		
-		directionalLight.GetTransform().SetRot(new Quaternion(new Vector3f(1, 0, 0), (float) Math.toRadians(-45)));
+		GameObject player = new GameObject().AddComponent(new FreeLook(0.5f)).AddComponent(new FreeMove(10.0f))
+				.AddComponent(new Camera(new Matrix4f().InitPerspective((float) Math.toRadians(70.0f), (float) Window.GetWidth() / (float) Window.GetHeight(), 0.01f, 1000.0f)));
+		player.GetTransform().SetPos(new Vector3f(0, 6, 0));
+		AddObject(player);
 	}
 }

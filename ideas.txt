@@ -9,3 +9,4 @@ Sound
 Prefabs
 3D Picking
 (Minimal) Scripting
+--> From Scripting: A Library of Scripts (Player/First Person Camera, Time of day script for Direction Lights, etc.)
