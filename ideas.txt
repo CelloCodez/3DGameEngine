@@ -4,8 +4,10 @@ Game engine!
 
 Things to do:
 
+Level Editor
 Physics
 Sound
 Prefabs
 3D Picking
 (Minimal) Scripting
+(Minimal) Add HashMap of Properties to GameObjects for easier managing of game objects- Assigned: Anderson Reyes
