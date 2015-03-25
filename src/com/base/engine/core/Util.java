@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2014 Benny Bobaganoosh
+ * Copyright (C) 2015 CelloCodez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,28 +22,37 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 
-import com.base.engine.rendering.Vertex;
 import org.lwjgl.BufferUtils;
 
-public class Util
-{
-	public static FloatBuffer CreateFloatBuffer(int size)
-	{
+import com.base.engine.rendering.Vertex;
+
+public class Util {
+	
+	public static Vector2f fromJavaxVector2f(javax.vecmath.Vector2f old) {
+		return new Vector2f(old.x, old.y);
+	}
+	
+	public static Vector3f fromJavaxVector3f(javax.vecmath.Vector3f old) {
+		return new Vector3f(old.x, old.y, old.z);
+	}
+	
+	public static Quaternion fromJavaxQuat4f(javax.vecmath.Quat4f old) {
+		return new Quaternion(old.x, old.y, old.z, old.w);
+	}
+	
+	public static FloatBuffer CreateFloatBuffer(int size) {
 		return BufferUtils.createFloatBuffer(size);
 	}
 	
-	public static IntBuffer CreateIntBuffer(int size)
-	{
+	public static IntBuffer CreateIntBuffer(int size) {
 		return BufferUtils.createIntBuffer(size);
 	}
-
-	public static ByteBuffer CreateByteBuffer(int size)
-	{
+	
+	public static ByteBuffer CreateByteBuffer(int size) {
 		return BufferUtils.createByteBuffer(size);
 	}
 	
-	public static IntBuffer CreateFlippedBuffer(int... values)
-	{
+	public static IntBuffer CreateFlippedBuffer(int... values) {
 		IntBuffer buffer = CreateIntBuffer(values.length);
 		buffer.put(values);
 		buffer.flip();
@@ -50,12 +60,10 @@ public class Util
 		return buffer;
 	}
 	
-	public static FloatBuffer CreateFlippedBuffer(Vertex[] vertices)
-	{
+	public static FloatBuffer CreateFlippedBuffer(Vertex[] vertices) {
 		FloatBuffer buffer = CreateFloatBuffer(vertices.length * Vertex.SIZE);
 		
-		for(int i = 0; i < vertices.length; i++)
-		{
+		for (int i = 0; i < vertices.length; i++) {
 			buffer.put(vertices[i].GetPos().GetX());
 			buffer.put(vertices[i].GetPos().GetY());
 			buffer.put(vertices[i].GetPos().GetZ());
@@ -74,12 +82,11 @@ public class Util
 		return buffer;
 	}
 	
-	public static FloatBuffer CreateFlippedBuffer(Matrix4f value)
-	{
+	public static FloatBuffer CreateFlippedBuffer(Matrix4f value) {
 		FloatBuffer buffer = CreateFloatBuffer(4 * 4);
 		
-		for(int i = 0; i < 4; i++)
-			for(int j = 0; j < 4; j++)
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
 				buffer.put(value.Get(i, j));
 		
 		buffer.flip();
@@ -87,12 +94,11 @@ public class Util
 		return buffer;
 	}
 	
-	public static String[] RemoveEmptyStrings(String[] data)
-	{
+	public static String[] RemoveEmptyStrings(String[] data) {
 		ArrayList<String> result = new ArrayList<String>();
 		
-		for(int i = 0; i < data.length; i++)
-			if(!data[i].equals(""))
+		for (int i = 0; i < data.length; i++)
+			if (!data[i].equals(""))
 				result.add(data[i]);
 		
 		String[] res = new String[result.size()];
@@ -101,11 +107,10 @@ public class Util
 		return res;
 	}
 	
-	public static int[] ToIntArray(Integer[] data)
-	{
+	public static int[] ToIntArray(Integer[] data) {
 		int[] result = new int[data.length];
 		
-		for(int i = 0; i < data.length; i++)
+		for (int i = 0; i < data.length; i++)
 			result[i] = data[i].intValue();
 		
 		return result;

@@ -189,4 +189,29 @@ public class Matrix4f
 	{
 		m[x][y] = value;
 	}
+
+	public javax.vecmath.Matrix4f toVecmath() {
+		javax.vecmath.Matrix4f result = new javax.vecmath.Matrix4f();
+		result.m00 = m[0][0];
+		result.m01 = m[0][1];
+		result.m02 = m[0][2];
+		result.m03 = m[0][3];
+		
+		result.m10 = m[1][0];
+		result.m11 = m[1][1];
+		result.m12 = m[1][2];
+		result.m13 = m[1][3];
+
+		result.m20 = m[2][0];
+		result.m21 = m[2][1];
+		result.m22 = m[2][2];
+		result.m23 = m[2][3];
+
+		result.m30 = m[3][0];
+		result.m31 = m[3][1];
+		result.m32 = m[3][2];
+		result.m33 = m[3][3];
+		
+		return result;
+	}
 }

@@ -1,5 +1,4 @@
 /*
- * Copyright (C) 2014 Benny Bobaganoosh
  * Copyright (C) 2015 CelloCodez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +19,7 @@ package com.base.game;
 import com.base.engine.components.GameComponent;
 import com.base.engine.core.Time;
 import com.base.engine.core.Vector3f;
+import com.base.engine.physics.PhysicsEngine;
 import com.base.engine.rendering.RenderingEngine;
 import com.base.engine.rendering.Shader;
 

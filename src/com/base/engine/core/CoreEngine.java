@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2014 Benny Bobaganoosh
+ * Copyright (C) 2015 CelloCodez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,66 +17,62 @@
 
 package com.base.engine.core;
 
+import com.base.engine.physics.PhysicsEngine;
 import com.base.engine.rendering.RenderingEngine;
 import com.base.engine.rendering.Window;
 
-public class CoreEngine
-{
-	private boolean         m_isRunning;
-	private Game            m_game;
+public class CoreEngine {
+	private boolean m_isRunning;
+	private Game m_game;
 	private RenderingEngine m_renderingEngine;
-	private int             m_width;
-	private int             m_height;
-	private double          m_frameTime;
+	private PhysicsEngine m_physicsEngine;
+	private int m_width;
+	private int m_height;
+	private double m_frameTime;
 	
-	public CoreEngine(int width, int height, double framerate, Game game)
-	{
+	public CoreEngine(int width, int height, double framerate, Game game) {
 		this.m_isRunning = false;
 		this.m_game = game;
 		this.m_width = width;
 		this.m_height = height;
-		this.m_frameTime = 1.0/framerate;
+		this.m_frameTime = 1.0 / framerate;
 		game.SetEngine(this);
 	}
-
-	public void CreateWindow(String title)
-	{
+	
+	public void CreateWindow(String title) {
 		Window.CreateWindow(m_width, m_height, title);
 		this.m_renderingEngine = new RenderingEngine();
+		this.m_physicsEngine = new PhysicsEngine();
 	}
-
-	public void Start()
-	{
-		if(m_isRunning)
+	
+	public void Start() {
+		if (m_isRunning)
 			return;
 		
 		Run();
 	}
 	
-	public void Stop()
-	{
-		if(!m_isRunning)
+	public void Stop() {
+		if (!m_isRunning)
 			return;
 		
 		m_isRunning = false;
 	}
 	
-	private void Run()
-	{
+	private void Run() {
 		m_isRunning = true;
 		
 		int frames = 0;
 		double frameCounter = 0;
-
+		
 		m_game.Init();
-
+		
 		double lastTime = Time.GetTime();
 		double unprocessedTime = 0;
 		
-		while(m_isRunning)
-		{
+		while (m_isRunning) {
 			boolean render = false;
-
+			
 			double startTime = Time.GetTime();
 			double passedTime = startTime - lastTime;
 			lastTime = startTime;
@@ -83,41 +80,36 @@ public class CoreEngine
 			unprocessedTime += passedTime;
 			frameCounter += passedTime;
 			
-			while(unprocessedTime > m_frameTime)
-			{
+			while (unprocessedTime > m_frameTime) {
 				render = true;
 				
 				unprocessedTime -= m_frameTime;
 				
-				if(Window.IsCloseRequested())
+				if (Window.IsCloseRequested())
 					Stop();
-
+				
 				m_game.Input((float) m_frameTime);
 				Input.Update();
 				
-				m_game.Update((float) m_frameTime);
+				m_physicsEngine.Update((float) m_frameTime);
+				m_game.PhysicsUpdate(m_physicsEngine);
+				m_game.Update((float) m_frameTime, m_physicsEngine);
+				m_game.AfterPhysicsUpdate(m_physicsEngine);
 				
-				if(frameCounter >= 1.0)
-				{
+				if (frameCounter >= 1.0) {
 					System.out.println(frames);
 					frames = 0;
 					frameCounter = 0;
 				}
 			}
-			if(render)
-			{
+			if (render) {
 				m_game.Render(m_renderingEngine);
 				Window.Render();
 				frames++;
-			}
-			else
-			{
-				try
-				{
+			} else {
+				try {
 					Thread.sleep(1);
-				}
-				catch (InterruptedException e)
-				{
+				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
@@ -125,12 +117,11 @@ public class CoreEngine
 		
 		CleanUp();
 	}
-
-	private void CleanUp()
-	{
+	
+	private void CleanUp() {
 		Window.Dispose();
 	}
-
+	
 	public RenderingEngine GetRenderingEngine() {
 		return m_renderingEngine;
 	}

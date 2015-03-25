@@ -19,13 +19,16 @@ package com.base.game;
 
 import com.base.engine.components.Camera;
 import com.base.engine.components.DirectionalLight;
-import com.base.engine.components.FreeLook;
+import com.base.engine.components.FreeLookTurn;
+import com.base.engine.components.FreeLookUpDown;
 import com.base.engine.components.FreeMove;
 import com.base.engine.core.Game;
 import com.base.engine.core.GameObject;
 import com.base.engine.core.Matrix4f;
 import com.base.engine.core.Quaternion;
 import com.base.engine.core.Vector3f;
+import com.base.engine.physics.CapsuleCollider;
+import com.base.engine.physics.PlaneCollider;
 import com.base.engine.prefabs.PlanePrefab;
 import com.base.engine.rendering.Window;
 
@@ -39,11 +42,17 @@ public class PhysicsTestGame extends Game {
 		
 		GameObject prefab = new PlanePrefab();
 		prefab.GetTransform().SetScale(new Vector3f(5, 1, 5));
+		prefab.AddComponent(new PlaneCollider(0, 5, 5));
 		AddObject(prefab);
 		
-		GameObject player = new GameObject().AddComponent(new FreeLook(0.5f)).AddComponent(new FreeMove(10.0f))
-				.AddComponent(new Camera(new Matrix4f().InitPerspective((float) Math.toRadians(70.0f), (float) Window.GetWidth() / (float) Window.GetHeight(), 0.01f, 1000.0f)));
+		GameObject playerCamera = new GameObject().AddComponent(new FreeLookUpDown(0.5f)).AddComponent(
+				new Camera(new Matrix4f().InitPerspective((float) Math.toRadians(70.0f), (float) Window.GetWidth() / (float) Window.GetHeight(), 0.01f, 1000.0f)));
+		GameObject player = new GameObject();
+		player.AddComponent(new FreeLookTurn(0.5f));
+		player.AddComponent(new FreeMove(5.0f));
+		player.AddChild(playerCamera);
 		player.GetTransform().SetPos(new Vector3f(0, 6, 0));
+		player.AddComponent(new CapsuleCollider(2, 1, 3));
 		AddObject(player);
 	}
 }

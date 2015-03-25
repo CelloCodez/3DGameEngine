@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2014 Benny Bobaganoosh
+ * Copyright (C) 2015 CelloCodez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,41 +17,47 @@
 
 package com.base.engine.core;
 
+import com.base.engine.physics.PhysicsEngine;
 import com.base.engine.rendering.RenderingEngine;
 
-public abstract class Game
-{
+public abstract class Game {
 	private GameObject m_root;
-
-	public void Init() {}
-
-	public void Input(float delta)
-	{
+	
+	public void Init() {
+	}
+	
+	public void Input(float delta) {
 		GetRootObject().InputAll(delta);
 	}
-
-	public void Update(float delta)
-	{
+	
+	public void Update(float delta, PhysicsEngine physicsEngine) {
 		GetRootObject().UpdateAll(delta);
 	}
-
-	public void Render(RenderingEngine renderingEngine)
-	{
+	
+	public void Render(RenderingEngine renderingEngine) {
 		renderingEngine.Render(GetRootObject());
 	}
-
-	public void AddObject(GameObject object)
-	{
+	
+	public void AddObject(GameObject object) {
 		GetRootObject().AddChild(object);
 	}
-
-	private GameObject GetRootObject()
-	{
-		if(m_root == null)
+	
+	private GameObject GetRootObject() {
+		if (m_root == null)
 			m_root = new GameObject();
-
+		
 		return m_root;
 	}
+	
+	public void SetEngine(CoreEngine engine) {
+		GetRootObject().SetEngine(engine);
+	}
+	
+	public void PhysicsUpdate(PhysicsEngine physicsEngine) {
+		GetRootObject().PhysicsUpdateAll(physicsEngine);
+	}
 
-	public void SetEngine(CoreEngine engine) { GetRootObject().SetEngine(engine); }
+	public void AfterPhysicsUpdate(PhysicsEngine physicsEngine) {
+		GetRootObject().AfterPhysicsUpdateAll(physicsEngine);
+	}
 }

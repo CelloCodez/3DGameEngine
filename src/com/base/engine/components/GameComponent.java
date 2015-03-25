@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2014 Benny Bobaganoosh
+ * Copyright (C) 2015 CelloCodez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,28 +19,37 @@ package com.base.engine.components;
 
 import com.base.engine.core.CoreEngine;
 import com.base.engine.core.GameObject;
-import com.base.engine.rendering.RenderingEngine;
 import com.base.engine.core.Transform;
+import com.base.engine.physics.PhysicsEngine;
+import com.base.engine.rendering.RenderingEngine;
 import com.base.engine.rendering.Shader;
 
-public abstract class GameComponent
-{
+public abstract class GameComponent {
 	private GameObject m_parent;
-
-	public void Input(float delta) {}
-	public void Update(float delta) {}
-	public void Render(Shader shader, RenderingEngine renderingEngine) {}
-
-	public void SetParent(GameObject parent)
-	{
+	
+	public void Input(float delta) {
+	}
+	
+	public void Update(float delta) {
+	}
+	
+	public void Render(Shader shader, RenderingEngine renderingEngine) {
+	}
+	
+	public void SetParent(GameObject parent) {
 		this.m_parent = parent;
 	}
-
-	public Transform GetTransform()
-	{
+	
+	public Transform GetTransform() {
 		return m_parent.GetTransform();
 	}
+	
+	public void AddToEngine(CoreEngine engine) {
+	}
 
-	public void AddToEngine(CoreEngine engine) {}
+	public void PhysicsUpdate(PhysicsEngine physicsEngine) {
+	}
+
+	public void AfterPhysicsUpdate(PhysicsEngine physicsEngine) {
+	}
 }
-
