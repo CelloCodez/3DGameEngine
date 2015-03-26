@@ -81,9 +81,9 @@ public class CapsuleCollider extends GameComponent {
 			if (m_init) {
 			} else {
 				m_transform.set(GetTransform().GetTransformation().toVecmath());
-				m_rigidbody.setCenterOfMassTransform(m_transform);
-				m_rigidbody.setWorldTransform(m_transform);
 				m_rigidbody.getMotionState().setWorldTransform(m_transform);
+				m_rigidbody.setCenterOfMassTransform(m_transform);
+				m_rigidbody.activate();
 			}
 		}
 	}
