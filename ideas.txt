@@ -6,7 +6,9 @@ Things to do:
 
 Physics
 Sound
+Events (like OnTouch then play a sound, etc.)
 Prefabs
-3D Picking
+Level Editor
+3D Picking (within the physics engine)
 (Minimal) Scripting
 --> From Scripting: A Library of Scripts (Player/First Person Camera, Time of day script for Direction Lights, etc.)
