@@ -1,9 +1,9 @@
 3D Game Engine
 ==
 
-thebennybox 3D Game Engine 
+Modification of BennyQBD's (his youtube: thebennybox) 3D game engine in Java.
 
-Tutorial found here: https://www.youtube.com/playlist?list=PLEETnX-uPtBXP_B2yupUKlflXBznWIlL5
+Original tutorial found here: https://www.youtube.com/playlist?list=PLEETnX-uPtBXP_B2yupUKlflXBznWIlL5
 
 ##Build Dependencies##
 - [JAVA](https://www.java.com/en/download/)
