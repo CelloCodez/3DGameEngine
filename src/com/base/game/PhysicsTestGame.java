@@ -1,5 +1,4 @@
 /*
- * Copyright (C) 2014 Benny Bobaganoosh
  * Copyright (C) 2015 CelloCodez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
