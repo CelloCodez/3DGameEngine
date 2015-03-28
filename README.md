@@ -5,6 +5,11 @@ Modification of BennyQBD's (his youtube: thebennybox) 3D game engine in Java.
 
 Original tutorial found here: https://www.youtube.com/playlist?list=PLEETnX-uPtBXP_B2yupUKlflXBznWIlL5
 
+##Libraries Used##
+- LWJGL (LightWeight Java Game Library, a type of OpenGL for Java)
+- JBullet (Java port of Bullet physics)
+- vecmath (included with JBullet)
+
 ##Build Dependencies##
 - [JAVA](https://www.java.com/en/download/)
 - BUILD TOOLCHAIN (Can be any one of the following, doesn't need to be all of them)
