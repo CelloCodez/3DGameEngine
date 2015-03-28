@@ -299,6 +299,7 @@ public class Shader {
 		AddProgram(text, GL_VERTEX_SHADER);
 	}
 	
+	@SuppressWarnings("unused")
 	private void AddGeometryShader(String text) {
 		AddProgram(text, GL_GEOMETRY_SHADER);
 	}
