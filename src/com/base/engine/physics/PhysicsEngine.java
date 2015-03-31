@@ -55,4 +55,8 @@ public class PhysicsEngine {
 		m_dynamicsWorld.addRigidBody(rigidBody);
 	}
 	
+	public void removeRigidBody(RigidBody rigidBody) {
+		m_dynamicsWorld.removeRigidBody(rigidBody);
+	}
+	
 }

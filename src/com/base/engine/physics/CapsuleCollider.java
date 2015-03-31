@@ -26,6 +26,7 @@ import com.bulletphysics.collision.shapes.CollisionShape;
 import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.dynamics.RigidBodyConstructionInfo;
 import com.bulletphysics.linearmath.DefaultMotionState;
+import com.bulletphysics.linearmath.MotionState;
 import com.bulletphysics.linearmath.Transform;
 
 public class CapsuleCollider extends GameComponent {
@@ -80,10 +81,16 @@ public class CapsuleCollider extends GameComponent {
 		if (physicsEngine != null) {
 			if (m_init) {
 			} else {
+				physicsEngine.removeRigidBody(m_rigidbody);
 				m_transform.set(GetTransform().GetTransformation().toVecmath());
-				m_rigidbody.getMotionState().setWorldTransform(m_transform);
-				m_rigidbody.setCenterOfMassTransform(m_transform);
-				m_rigidbody.activate();
+				DefaultMotionState mState = new DefaultMotionState(m_transform);
+				CollisionShape shape = new CapsuleShape(m_radius, m_height);
+				Vector3f vel = new Vector3f(0, 0, 0);
+				m_rigidbody.getLinearVelocity(vel);
+				RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
+				m_rigidbody = new RigidBody(rbci);
+				m_rigidbody.setLinearVelocity(vel);
+				physicsEngine.addRigidBody(m_rigidbody);
 			}
 		}
 	}
