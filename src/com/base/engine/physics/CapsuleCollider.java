@@ -46,7 +46,6 @@ public class CapsuleCollider extends GameComponent {
 	
 	@Override
 	public void Update(float delta) {
-		
 	}
 	
 	@Override
@@ -63,15 +62,19 @@ public class CapsuleCollider extends GameComponent {
 				RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
 				m_rigidbody = new RigidBody(rbci);
 				m_rigidbody.setRestitution(0.0f);
+				
+				m_rigidbody.setCcdMotionThreshold(1f);
+				m_rigidbody.setCcdSweptSphereRadius(m_radius);
+				
 				physicsEngine.addRigidBody(m_rigidbody);
 				
 				m_init = false;
 			} else {
 				// update the transform with the physics engine's
-				m_rigidbody.getMotionState().getWorldTransform(m_transform);
-				GetTransform().SetPos(Util.fromJavaxVector3f(m_transform.origin));
+				Transform newTransform = m_rigidbody.getMotionState().getWorldTransform(m_transform);
+				GetTransform().SetPos(Util.fromJavaxVector3f(newTransform.origin));
 				Quat4f q = new Quat4f();
-				m_transform.getRotation(q);
+				newTransform.getRotation(q);
 				GetTransform().SetRot(Util.fromJavaxQuat4f(q));
 				GetTransform().Update();
 			}
@@ -86,35 +89,9 @@ public class CapsuleCollider extends GameComponent {
 				// update the physics engine's transform with anything changed
 				// in the game
 				if (GetTransform().HasChanged()) {
-					// Remove and reset the rigidbody
-					physicsEngine.removeRigidBody(m_rigidbody);
-					m_transform = new Transform();
-					m_transform.setIdentity();
-					m_transform.set(GetTransform().GetTransformation().toVecmath());
-					DefaultMotionState mState = new DefaultMotionState(m_transform);
-					CollisionShape shape = new CapsuleShape(m_radius, m_height);
-					
-					// preserve some variables
-					Vector3f vel = new Vector3f(0, 0, 0);
-					m_rigidbody.getLinearVelocity(vel);
-					Vector3f angVel = new Vector3f(0, 0, 0);
-					m_rigidbody.getAngularVelocity(angVel);
-					Vector3f grav = new Vector3f(0, 0, 0);
-					m_rigidbody.getGravity(grav);
-					float rest = m_rigidbody.getRestitution();
-					
-					// Recreate the rigidbody
-					RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
-					m_rigidbody = new RigidBody(rbci);
-					
-					// Restore the preserved variables
-					m_rigidbody.setLinearVelocity(vel);
-					m_rigidbody.setAngularVelocity(angVel);
-					m_rigidbody.setGravity(grav);
-					m_rigidbody.setRestitution(rest);
-					
-					// Add back the rigidbody
-					physicsEngine.addRigidBody(m_rigidbody);
+					m_rigidbody.getMotionState().setWorldTransform(new Transform(GetTransform().GetTransformation().toVecmath()));
+					m_rigidbody.setCenterOfMassTransform(new Transform(GetTransform().GetTransformation().toVecmath()));
+					m_rigidbody.activate();
 				}
 			}
 		}

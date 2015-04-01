@@ -46,7 +46,6 @@ public class PlaneCollider extends GameComponent {
 	
 	@Override
 	public void Update(float delta) {
-		
 	}
 	
 	@Override
@@ -57,10 +56,14 @@ public class PlaneCollider extends GameComponent {
 				m_transform.setIdentity();
 				m_transform.set(GetTransform().GetTransformation().toVecmath());
 				DefaultMotionState mState = new DefaultMotionState(m_transform);
-				CollisionShape shape = new BoxShape(new Vector3f(m_width, 0.02f, m_height));
+				CollisionShape shape = new BoxShape(new Vector3f(m_width, 0.2f, m_height));
 				RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
 				m_rigidbody = new RigidBody(rbci);
 				m_rigidbody.setRestitution(0.0f);
+				
+				m_rigidbody.setCcdMotionThreshold(1f);
+				m_rigidbody.setCcdSweptSphereRadius(1f);
+				
 				physicsEngine.addRigidBody(m_rigidbody);
 				
 				m_init = false;
@@ -80,22 +83,13 @@ public class PlaneCollider extends GameComponent {
 		if (physicsEngine != null) {
 			if (m_init) {
 			} else {
-				physicsEngine.removeRigidBody(m_rigidbody);
-				m_transform = new Transform();
-				m_transform.setIdentity();
-				m_transform.set(GetTransform().GetTransformation().toVecmath());
-				DefaultMotionState mState = new DefaultMotionState(m_transform);
-				CollisionShape shape = new BoxShape(new Vector3f(m_width, 0.02f, m_height));
-				Vector3f vel = new Vector3f(0, 0, 0);
-				m_rigidbody.getLinearVelocity(vel);
-				Vector3f angVel = new Vector3f(0, 0, 0);
-				m_rigidbody.getAngularVelocity(angVel);
-				RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
-				m_rigidbody = new RigidBody(rbci);
-				m_rigidbody.setLinearVelocity(vel);
-				m_rigidbody.setAngularVelocity(angVel);
-				m_rigidbody.setRestitution(0.0f);
-				physicsEngine.addRigidBody(m_rigidbody);
+				// update the physics engine's transform with anything changed
+				// in the game
+				if (GetTransform().HasChanged()) {
+					m_rigidbody.getMotionState().setWorldTransform(new Transform(GetTransform().GetTransformation().toVecmath()));
+					m_rigidbody.setCenterOfMassTransform(new Transform(GetTransform().GetTransformation().toVecmath()));
+					m_rigidbody.activate();
+				}
 			}
 		}
 	}
