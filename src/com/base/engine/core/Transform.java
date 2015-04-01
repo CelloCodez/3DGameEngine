@@ -96,6 +96,10 @@ public class Transform {
 		this.m_parent = parent;
 	}
 	
+	public Transform GetParent() {
+		return m_parent;
+	}
+	
 	public Vector3f GetTransformedPos() {
 		return GetParentMatrix().Transform(m_pos);
 	}

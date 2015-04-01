@@ -31,6 +31,7 @@ import com.bulletphysics.linearmath.Transform;
 public class CapsuleCollider extends GameComponent {
 	
 	private boolean m_init = true;
+	private boolean changed = false;
 	private RigidBody m_rigidbody;
 	private Transform m_transform;
 	private float m_mass;
@@ -86,8 +87,12 @@ public class CapsuleCollider extends GameComponent {
 		if (physicsEngine != null) {
 			if (m_init) {
 			} else {
-				// update the physics engine's transform with anything changed
-				// in the game
+				// update the physics engine's rigidbody with anything changed
+				if (changed) {
+					Recreate(physicsEngine);
+					changed = false;
+				}
+				// now update its transform with things changed in the game
 				if (GetTransform().HasChanged()) {
 					m_rigidbody.getMotionState().setWorldTransform(new Transform(GetTransform().GetTransformation().toVecmath()));
 					m_rigidbody.setCenterOfMassTransform(new Transform(GetTransform().GetTransformation().toVecmath()));
@@ -95,5 +100,33 @@ public class CapsuleCollider extends GameComponent {
 				}
 			}
 		}
+	}
+	
+	public void SetMass(float mass) {
+		m_mass = mass;
+		changed = true;
+	}
+	
+	private void Recreate(PhysicsEngine physicsEngine) {
+		physicsEngine.removeRigidBody(m_rigidbody);
+		
+		Vector3f linVel = new Vector3f(0, 0, 0);
+		m_rigidbody.getLinearVelocity(linVel);
+		Vector3f angVel = new Vector3f(0, 0, 0);
+		m_rigidbody.getAngularVelocity(angVel);
+		float rest = m_rigidbody.getRestitution();
+		
+		DefaultMotionState mState = new DefaultMotionState(m_transform);
+		CollisionShape shape = new CapsuleShape(m_radius, m_height);
+		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
+		m_rigidbody = new RigidBody(rbci);
+		m_rigidbody.setLinearVelocity(linVel);
+		m_rigidbody.setAngularVelocity(angVel);
+		m_rigidbody.setRestitution(rest);
+		
+		m_rigidbody.setCcdMotionThreshold(1f);
+		m_rigidbody.setCcdSweptSphereRadius(1f);
+		
+		physicsEngine.addRigidBody(m_rigidbody);
 	}
 }

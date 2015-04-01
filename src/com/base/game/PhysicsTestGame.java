@@ -34,19 +34,21 @@ import com.base.engine.rendering.Window;
 public class PhysicsTestGame extends Game {
 	public void Init() {
 		
-		GameObject lightContainer = new GameObject();
+		GameObject lightContainer = new GameObject("Lights");
 		lightContainer.AddComponent(new DirectionalLight(new Vector3f(1f, 1f, 1f), 0.2f));
 		lightContainer.GetTransform().SetRot(new Quaternion(new Vector3f(1, 0, 0), (float) Math.toRadians(-45)));
 		AddObject(lightContainer);
 		
-		GameObject prefab = new PlanePrefab();
-		prefab.GetTransform().SetScale(new Vector3f(5, 1, 5));
-		prefab.AddComponent(new PlaneCollider(0, 5, 5));
+		GameObject prefab = new PlanePrefab("Plane", 5, 5);
 		AddObject(prefab);
+		// This does nothing as the default PlanePrefab mass is 0,
+		// but it is just to show how to set things in components
+		// and to prove that it works in case of an error.
+		((PlaneCollider) prefab.GetComponent(PlaneCollider.class)).SetMass(0f);
 		
-		GameObject playerCamera = new GameObject().AddComponent(new FreeLookUpDown(0.5f)).AddComponent(
+		GameObject playerCamera = new GameObject("Camera").AddComponent(new FreeLookUpDown(0.5f)).AddComponent(
 				new Camera(new Matrix4f().InitPerspective((float) Math.toRadians(70.0f), (float) Window.GetWidth() / (float) Window.GetHeight(), 0.01f, 1000.0f)));
-		GameObject player = new GameObject();
+		GameObject player = new GameObject("Player");
 		player.AddComponent(new FreeLookTurn(0.5f));
 		player.AddComponent(new FreeMove(5.0f));
 		player.AddChild(playerCamera);

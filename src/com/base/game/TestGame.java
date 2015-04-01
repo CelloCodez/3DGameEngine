@@ -17,9 +17,23 @@
 
 package com.base.game;
 
-import com.base.engine.components.*;
-import com.base.engine.core.*;
-import com.base.engine.rendering.*;
+import com.base.engine.components.Camera;
+import com.base.engine.components.DirectionalLight;
+import com.base.engine.components.FreeLook;
+import com.base.engine.components.FreeMove;
+import com.base.engine.components.MeshRenderer;
+import com.base.engine.components.PointLight;
+import com.base.engine.components.SpotLight;
+import com.base.engine.core.Game;
+import com.base.engine.core.GameObject;
+import com.base.engine.core.Matrix4f;
+import com.base.engine.core.Quaternion;
+import com.base.engine.core.Vector3f;
+import com.base.engine.rendering.Attenuation;
+import com.base.engine.rendering.Material;
+import com.base.engine.rendering.Mesh;
+import com.base.engine.rendering.Texture;
+import com.base.engine.rendering.Window;
 
 public class TestGame extends Game {
 	public void Init() {
@@ -32,21 +46,21 @@ public class TestGame extends Game {
 		
 		MeshRenderer meshRenderer = new MeshRenderer(mesh, material);
 		
-		GameObject planeObject = new GameObject();
+		GameObject planeObject = new GameObject("Plane");
 		planeObject.AddComponent(meshRenderer);
 		planeObject.GetTransform().GetPos().Set(0, -1, 5);
 		
-		GameObject directionalLightObject = new GameObject();
+		GameObject directionalLightObject = new GameObject("DirectionalLight");
 		DirectionalLight directionalLight = new DirectionalLight(new Vector3f(0, 0, 1), 0.4f);
 		
 		directionalLightObject.AddComponent(directionalLight);
 		
-		GameObject pointLightObject = new GameObject();
+		GameObject pointLightObject = new GameObject("PointLight");
 		pointLightObject.AddComponent(new PointLight(new Vector3f(0, 1, 0), 0.4f, new Attenuation(0, 0, 1)));
 		
 		SpotLight spotLight = new SpotLight(new Vector3f(0, 1, 1), 0.4f, new Attenuation(0, 0, 0.1f), 0.7f);
 		
-		GameObject spotLightObject = new GameObject();
+		GameObject spotLightObject = new GameObject("SpotLight");
 		spotLightObject.AddComponent(spotLight);
 		
 		spotLightObject.GetTransform().GetPos().Set(5, 0, 5);
@@ -57,11 +71,9 @@ public class TestGame extends Game {
 		AddObject(pointLightObject);
 		AddObject(spotLightObject);
 		
-		GameObject testMesh3 = new GameObject().AddComponent(new LookAtComponent()).AddComponent(new MeshRenderer(tempMesh, material));
+		GameObject testMesh3 = new GameObject("TestMesh").AddComponent(new LookAtComponent()).AddComponent(new MeshRenderer(tempMesh, material));
 		
-		AddObject(
-		//AddObject(
-		new GameObject().AddComponent(new FreeLook(0.5f)).AddComponent(new FreeMove(10.0f))
+		AddObject(new GameObject("Camera").AddComponent(new FreeLook(0.5f)).AddComponent(new FreeMove(10.0f))
 				.AddComponent(new Camera(new Matrix4f().InitPerspective((float) Math.toRadians(70.0f), (float) Window.GetWidth() / (float) Window.GetHeight(), 0.01f, 1000.0f))));
 		
 		AddObject(testMesh3);
@@ -69,7 +81,7 @@ public class TestGame extends Game {
 		testMesh3.GetTransform().GetPos().Set(5, 5, 5);
 		testMesh3.GetTransform().SetRot(new Quaternion(new Vector3f(0, 1, 0), (float) Math.toRadians(-70.0f)));
 		
-		AddObject(new GameObject().AddComponent(new MeshRenderer(new Mesh("monkey3.obj"), material2)));
+		AddObject(new GameObject("Monkey").AddComponent(new MeshRenderer(new Mesh("monkey3.obj"), material2)));
 		
 		directionalLight.GetTransform().SetRot(new Quaternion(new Vector3f(1, 0, 0), (float) Math.toRadians(-45)));
 	}

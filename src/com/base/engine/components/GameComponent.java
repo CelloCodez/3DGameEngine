@@ -40,6 +40,10 @@ public abstract class GameComponent {
 		this.m_parent = parent;
 	}
 	
+	public GameObject GetParent() {
+		return m_parent;
+	}
+	
 	public Transform GetTransform() {
 		return m_parent.GetTransform();
 	}

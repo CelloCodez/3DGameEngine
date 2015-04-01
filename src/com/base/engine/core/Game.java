@@ -44,7 +44,7 @@ public abstract class Game {
 	
 	private GameObject GetRootObject() {
 		if (m_root == null)
-			m_root = new GameObject();
+			m_root = new GameObject("_root");
 		
 		return m_root;
 	}

@@ -18,14 +18,18 @@ package com.base.engine.prefabs;
 
 import com.base.engine.components.MeshRenderer;
 import com.base.engine.core.GameObject;
+import com.base.engine.core.Vector3f;
+import com.base.engine.physics.PlaneCollider;
 import com.base.engine.rendering.Mesh;
 
 public class PlanePrefab extends GameObject {
 	
-	public PlanePrefab() {
-		super();
+	public PlanePrefab(String name, float width, float length) {
+		super(name);
 		Mesh mesh = new Mesh("plane.obj");
 		AddComponent(new MeshRenderer(mesh, new DefaultMaterial()));
+		GetTransform().SetScale(new Vector3f(width, 1, length));
+		AddComponent(new PlaneCollider(0, width, length));
 	}
 	
 }

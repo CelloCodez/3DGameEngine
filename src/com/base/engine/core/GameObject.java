@@ -25,16 +25,44 @@ import com.base.engine.rendering.RenderingEngine;
 import com.base.engine.rendering.Shader;
 
 public class GameObject {
+	private String m_name;
 	private ArrayList<GameObject> m_children;
 	private ArrayList<GameComponent> m_components;
 	private Transform m_transform;
 	private CoreEngine m_engine;
 	
-	public GameObject() {
+	public GameObject(String name) {
 		m_children = new ArrayList<GameObject>();
 		m_components = new ArrayList<GameComponent>();
 		m_transform = new Transform();
 		m_engine = null;
+		m_name = name;
+	}
+	
+	public GameComponent GetComponent(Class<? extends GameComponent> comp) {
+		for (GameComponent find : m_components) {
+			if (comp.isInstance(find)) {
+				return find;
+			}
+		}
+		return null;
+	}
+	
+	public GameObject FindChild(String name) {
+		for (GameObject find : m_children) {
+			if (find.m_name.equals(name)) {
+				return find;
+			}
+		}
+		return null;
+	}
+	
+	public void SetName(String name) {
+		m_name = name;
+	}
+	
+	public String GetName() {
+		return m_name;
 	}
 	
 	public GameObject AddChild(GameObject child) {
