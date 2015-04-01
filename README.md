@@ -27,5 +27,5 @@ Original tutorial found here: https://www.youtube.com/playlist?list=PLEETnX-uPtB
 - Build and run
 
 ##Additional Credits##
-- Etay Meiri, for http://ogldev.atspace.co.uk/ which inspired the base code for this repository.
+- Etay Meiri, for http://ogldev.atspace.co.uk/ which inspired the base code for the original repository.
 - Everyone who's created or contributed to issues and pull requests, which make the project better!
