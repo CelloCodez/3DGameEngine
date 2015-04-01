@@ -22,7 +22,6 @@ import javax.vecmath.Vector3f;
 import com.base.engine.components.GameComponent;
 import com.base.engine.core.Util;
 import com.bulletphysics.collision.shapes.BoxShape;
-import com.bulletphysics.collision.shapes.CapsuleShape;
 import com.bulletphysics.collision.shapes.CollisionShape;
 import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.dynamics.RigidBodyConstructionInfo;
