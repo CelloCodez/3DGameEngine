@@ -22,6 +22,8 @@ Original tutorial found here: https://www.youtube.com/playlist?list=PLEETnX-uPtB
 - Open your preferred Java IDE, and create a new project.
 - Import everything under the src folder as source files.
 - Copy the res folder into your Java IDE's folder for your project.
+- Copy the lib folder into it, adding any JARs inside of it into your build path.
+- Make sure you set the LWJGL native libraries path to the folder of your OS inside of lib/natives/
 - Build and run
 
 ##Additional Credits##
