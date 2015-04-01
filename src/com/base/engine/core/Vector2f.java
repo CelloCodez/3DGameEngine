@@ -18,8 +18,8 @@
 package com.base.engine.core;
 
 public class Vector2f {
-	private float m_x;
-	private float m_y;
+	private float m_x = 0f;
+	private float m_y = 0f;
 	
 	public Vector2f(float x, float y) {
 		this.m_x = x;

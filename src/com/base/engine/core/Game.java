@@ -56,7 +56,7 @@ public abstract class Game {
 	public void PhysicsUpdate(PhysicsEngine physicsEngine) {
 		GetRootObject().PhysicsUpdateAll(physicsEngine);
 	}
-
+	
 	public void AfterPhysicsUpdate(PhysicsEngine physicsEngine) {
 		GetRootObject().AfterPhysicsUpdateAll(physicsEngine);
 	}

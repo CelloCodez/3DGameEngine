@@ -22,6 +22,7 @@ import javax.vecmath.Vector3f;
 import com.base.engine.components.GameComponent;
 import com.base.engine.core.Util;
 import com.bulletphysics.collision.shapes.BoxShape;
+import com.bulletphysics.collision.shapes.CapsuleShape;
 import com.bulletphysics.collision.shapes.CollisionShape;
 import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.dynamics.RigidBodyConstructionInfo;
@@ -80,10 +81,22 @@ public class PlaneCollider extends GameComponent {
 		if (physicsEngine != null) {
 			if (m_init) {
 			} else {
+				physicsEngine.removeRigidBody(m_rigidbody);
+				m_transform = new Transform();
+				m_transform.setIdentity();
 				m_transform.set(GetTransform().GetTransformation().toVecmath());
-				m_rigidbody.getMotionState().setWorldTransform(m_transform);
-				m_rigidbody.setCenterOfMassTransform(m_transform);
-				m_rigidbody.activate();
+				DefaultMotionState mState = new DefaultMotionState(m_transform);
+				CollisionShape shape = new BoxShape(new Vector3f(m_width, 0.02f, m_height));
+				Vector3f vel = new Vector3f(0, 0, 0);
+				m_rigidbody.getLinearVelocity(vel);
+				Vector3f angVel = new Vector3f(0, 0, 0);
+				m_rigidbody.getAngularVelocity(angVel);
+				RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
+				m_rigidbody = new RigidBody(rbci);
+				m_rigidbody.setLinearVelocity(vel);
+				m_rigidbody.setAngularVelocity(angVel);
+				m_rigidbody.setRestitution(0.0f);
+				physicsEngine.addRigidBody(m_rigidbody);
 			}
 		}
 	}

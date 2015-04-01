@@ -88,11 +88,12 @@ public class CoreEngine {
 				if (Window.IsCloseRequested())
 					Stop();
 				
+				m_physicsEngine.Update((float) m_frameTime);
+				m_game.PhysicsUpdate(m_physicsEngine);
+				
 				m_game.Input((float) m_frameTime);
 				Input.Update();
 				
-				m_physicsEngine.Update((float) m_frameTime);
-				m_game.PhysicsUpdate(m_physicsEngine);
 				m_game.Update((float) m_frameTime, m_physicsEngine);
 				m_game.AfterPhysicsUpdate(m_physicsEngine);
 				

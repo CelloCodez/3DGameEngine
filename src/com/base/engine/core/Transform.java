@@ -65,13 +65,13 @@ public class Transform {
 		if (m_parent != null && m_parent.HasChanged())
 			return true;
 		
-		if (!m_pos.equals(m_oldPos))
+		if (m_oldPos != null && !m_pos.equals(m_oldPos))
 			return true;
 		
-		if (!m_rot.equals(m_oldRot))
+		if (m_oldRot != null && !m_rot.equals(m_oldRot))
 			return true;
 		
-		if (!m_scale.equals(m_oldScale))
+		if (m_oldScale != null && !m_scale.equals(m_oldScale))
 			return true;
 		
 		return false;
