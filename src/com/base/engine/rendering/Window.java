@@ -16,7 +16,9 @@
 
 package com.base.engine.rendering;
 
+import com.base.engine.core.Input;
 import com.base.engine.core.Vector2f;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -44,6 +46,7 @@ public class Window
 	public static void Render()
 	{
 		Display.update();
+		Input.DetermineMouse();
 	}
 	
 	public static void Dispose()

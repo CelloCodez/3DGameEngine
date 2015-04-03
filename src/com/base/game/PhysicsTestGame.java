@@ -18,8 +18,7 @@ package com.base.game;
 
 import com.base.engine.components.Camera;
 import com.base.engine.components.DirectionalLight;
-import com.base.engine.components.FreeLookTurn;
-import com.base.engine.components.FreeLookUpDown;
+import com.base.engine.components.FreeLook;
 import com.base.engine.components.FreeMove;
 import com.base.engine.core.Game;
 import com.base.engine.core.GameObject;
@@ -46,10 +45,10 @@ public class PhysicsTestGame extends Game {
 		// and to prove that it works in case of an error.
 		((PlaneCollider) prefab.GetComponent(PlaneCollider.class)).SetMass(0f);
 		
-		GameObject playerCamera = new GameObject("Camera").AddComponent(new FreeLookUpDown(0.5f)).AddComponent(
+		GameObject playerCamera = new GameObject("Camera").AddComponent(new FreeLook(0.5f, 0)).AddComponent(
 				new Camera(new Matrix4f().InitPerspective((float) Math.toRadians(70.0f), (float) Window.GetWidth() / (float) Window.GetHeight(), 0.01f, 1000.0f)));
 		GameObject player = new GameObject("Player");
-		player.AddComponent(new FreeLookTurn(0.5f));
+		player.AddComponent(new FreeLook(0, 0.5f));
 		player.AddComponent(new FreeMove(5.0f));
 		player.AddChild(playerCamera);
 		player.GetTransform().SetPos(new Vector3f(0, 6, 0));
