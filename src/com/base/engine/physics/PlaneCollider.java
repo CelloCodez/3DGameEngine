@@ -36,13 +36,13 @@ public class PlaneCollider extends GameComponent {
 	private Transform m_transform;
 	private float m_mass;
 	private float m_width;
-	private float m_height;
+	private float m_length;
 	
-	public PlaneCollider(float mass, float width, float height) {
+	public PlaneCollider(float mass, float width, float length) {
 		super();
 		m_mass = mass;
 		m_width = width;
-		m_height = height;
+		m_length = length;
 	}
 	
 	@Override
@@ -57,7 +57,7 @@ public class PlaneCollider extends GameComponent {
 				m_transform.setIdentity();
 				m_transform.set(GetTransform().GetTransformation().toVecmath());
 				DefaultMotionState mState = new DefaultMotionState(m_transform);
-				CollisionShape shape = new BoxShape(new Vector3f(m_width, 0.2f, m_height));
+				CollisionShape shape = new BoxShape(new Vector3f(m_width / 2f, 0.2f, m_length / 2f));
 				RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
 				m_rigidbody = new RigidBody(rbci);
 				m_rigidbody.setRestitution(0.0f);
@@ -114,7 +114,7 @@ public class PlaneCollider extends GameComponent {
 		float rest = m_rigidbody.getRestitution();
 		
 		DefaultMotionState mState = new DefaultMotionState(m_transform);
-		CollisionShape shape = new BoxShape(new Vector3f(m_width, 0.2f, m_height));
+		CollisionShape shape = new BoxShape(new Vector3f(m_width / 2f, 0.2f, m_length / 2f));
 		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
 		m_rigidbody = new RigidBody(rbci);
 		m_rigidbody.setLinearVelocity(linVel);
@@ -125,6 +125,16 @@ public class PlaneCollider extends GameComponent {
 		m_rigidbody.setCcdSweptSphereRadius(1f);
 		
 		physicsEngine.addRigidBody(m_rigidbody);
+	}
+	
+	public void ApplyCentralForce(com.base.engine.core.Vector3f force) {
+		m_rigidbody.applyCentralForce(force.toVecmath());
+		m_rigidbody.activate();
+	}
+	
+	public void Translate(com.base.engine.core.Vector3f vec) {
+		m_rigidbody.translate(vec.toVecmath());
+		m_rigidbody.activate();
 	}
 	
 }

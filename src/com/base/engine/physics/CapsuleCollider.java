@@ -72,10 +72,10 @@ public class CapsuleCollider extends GameComponent {
 				m_init = false;
 			} else {
 				// update the transform with the physics engine's
-				Transform newTransform = m_rigidbody.getMotionState().getWorldTransform(m_transform);
-				GetTransform().SetPos(Util.fromJavaxVector3f(newTransform.origin));
+				m_rigidbody.getMotionState().getWorldTransform(m_transform);
+				GetTransform().SetPos(Util.fromJavaxVector3f(m_transform.origin));
 				Quat4f q = new Quat4f();
-				newTransform.getRotation(q);
+				m_transform.getRotation(q);
 				GetTransform().SetRot(Util.fromJavaxQuat4f(q));
 				GetTransform().Update();
 			}
@@ -129,4 +129,15 @@ public class CapsuleCollider extends GameComponent {
 		
 		physicsEngine.addRigidBody(m_rigidbody);
 	}
+	
+	public void ApplyCentralForce(com.base.engine.core.Vector3f force) {
+		m_rigidbody.applyCentralForce(force.toVecmath());
+		m_rigidbody.activate();
+	}
+	
+	public void Translate(com.base.engine.core.Vector3f vec) {
+		m_rigidbody.translate(vec.toVecmath());
+		m_rigidbody.activate();
+	}
+	
 }
