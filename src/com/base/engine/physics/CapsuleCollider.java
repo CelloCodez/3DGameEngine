@@ -19,7 +19,6 @@ package com.base.engine.physics;
 import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 
-import com.base.engine.components.GameComponent;
 import com.base.engine.core.Util;
 import com.bulletphysics.collision.shapes.CapsuleShape;
 import com.bulletphysics.collision.shapes.CollisionShape;
@@ -28,86 +27,63 @@ import com.bulletphysics.dynamics.RigidBodyConstructionInfo;
 import com.bulletphysics.linearmath.DefaultMotionState;
 import com.bulletphysics.linearmath.Transform;
 
-public class CapsuleCollider extends GameComponent {
+public class CapsuleCollider extends Collider {
 	
-	private boolean m_init = true;
-	private boolean changed = false;
-	private RigidBody m_rigidbody;
-	private Transform m_transform;
-	private float m_mass;
 	private float m_radius;
 	private float m_height;
 	
 	public CapsuleCollider(float mass, float radius, float height) {
-		super();
-		m_mass = mass;
+		super(mass);
 		m_radius = radius;
 		m_height = height;
 	}
 	
 	@Override
-	public void Update(float delta) {
+	public void Initialize(PhysicsEngine physicsEngine) {
+		m_transform = new Transform();
+		m_transform.setIdentity();
+		m_transform.set(GetTransform().GetTransformation().toVecmath());
+		DefaultMotionState mState = new DefaultMotionState(m_transform);
+		CollisionShape shape = new CapsuleShape(m_radius, m_height);
+		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
+		m_rigidbody = new RigidBody(rbci);
+		m_rigidbody.setRestitution(0.0f);
+		
+		m_rigidbody.setCcdMotionThreshold(1f);
+		m_rigidbody.setCcdSweptSphereRadius(1f);
+		
+		physicsEngine.addRigidBody(m_rigidbody);
 	}
 	
 	@Override
-	public void PhysicsUpdate(PhysicsEngine physicsEngine) {
-		if (physicsEngine != null) {
-			if (m_init) {
-				// nothing has been initialized, so set up the data
-				// and add the rigidbody to the physicsEngine
-				m_transform = new Transform();
-				m_transform.setIdentity();
-				m_transform.set(GetTransform().GetTransformation().toVecmath());
-				DefaultMotionState mState = new DefaultMotionState(m_transform);
-				CollisionShape shape = new CapsuleShape(m_radius, m_height);
-				RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
-				m_rigidbody = new RigidBody(rbci);
-				m_rigidbody.setRestitution(0.0f);
-				
-				m_rigidbody.setCcdMotionThreshold(1f);
-				m_rigidbody.setCcdSweptSphereRadius(m_radius);
-				
-				physicsEngine.addRigidBody(m_rigidbody);
-				
-				m_init = false;
-			} else {
-				// update the transform with the physics engine's
-				m_rigidbody.getMotionState().getWorldTransform(m_transform);
-				GetTransform().SetPos(Util.fromJavaxVector3f(m_transform.origin));
-				Quat4f q = new Quat4f();
-				m_transform.getRotation(q);
-				GetTransform().SetRot(Util.fromJavaxQuat4f(q));
-				GetTransform().Update();
-			}
-		}
+	public void UpdateToGame() {
+		Transform newTransform = m_rigidbody.getMotionState().getWorldTransform(m_transform);
+		Vector3f newPos = newTransform.origin;
+		GetTransform().SetPos(Util.fromJavaxVector3f(newPos));
+		Quat4f q = new Quat4f();
+		newTransform.getRotation(q);
+		GetTransform().SetRot(Util.fromJavaxQuat4f(q));
 	}
 	
 	@Override
-	public void AfterPhysicsUpdate(PhysicsEngine physicsEngine) {
+	public void UpdateToJBullet(PhysicsEngine physicsEngine) {
 		if (physicsEngine != null) {
-			if (m_init) {
-			} else {
-				// update the physics engine's rigidbody with anything changed
-				if (changed) {
-					Recreate(physicsEngine);
-					changed = false;
-				}
-				// now update its transform with things changed in the game
-				if (GetTransform().HasChanged()) {
-					m_rigidbody.getMotionState().setWorldTransform(new Transform(GetTransform().GetTransformation().toVecmath()));
-					m_rigidbody.setCenterOfMassTransform(new Transform(GetTransform().GetTransformation().toVecmath()));
-					m_rigidbody.activate();
-				}
+			// update the physics engine's rigidbody with anything changed
+			if (m_changed) {
+				Recreate(physicsEngine);
+				m_changed = false;
+			}
+			// now update its transform with things changed in the game
+			if (GetTransform().HasChanged()) {
+				m_rigidbody.getMotionState().setWorldTransform(new Transform(GetTransform().GetTransformation().toVecmath()));
+				m_rigidbody.setCenterOfMassTransform(new Transform(GetTransform().GetTransformation().toVecmath()));
+				m_rigidbody.activate();
 			}
 		}
 	}
-	
-	public void SetMass(float mass) {
-		m_mass = mass;
-		changed = true;
-	}
-	
-	private void Recreate(PhysicsEngine physicsEngine) {
+
+	@Override
+	public void Recreate(PhysicsEngine physicsEngine) {
 		physicsEngine.removeRigidBody(m_rigidbody);
 		
 		Vector3f linVel = new Vector3f(0, 0, 0);
@@ -128,16 +104,6 @@ public class CapsuleCollider extends GameComponent {
 		m_rigidbody.setCcdSweptSphereRadius(1f);
 		
 		physicsEngine.addRigidBody(m_rigidbody);
-	}
-	
-	public void ApplyCentralForce(com.base.engine.core.Vector3f force) {
-		m_rigidbody.applyCentralForce(force.toVecmath());
-		m_rigidbody.activate();
-	}
-	
-	public void Translate(com.base.engine.core.Vector3f vec) {
-		m_rigidbody.translate(vec.toVecmath());
-		m_rigidbody.activate();
 	}
 	
 }

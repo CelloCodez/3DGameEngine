@@ -26,7 +26,6 @@ import com.base.engine.core.Matrix4f;
 import com.base.engine.core.Quaternion;
 import com.base.engine.core.Vector3f;
 import com.base.engine.physics.CapsuleCollider;
-import com.base.engine.physics.PlaneCollider;
 import com.base.engine.prefabs.PlanePrefab;
 import com.base.engine.rendering.Window;
 
@@ -43,7 +42,7 @@ public class PhysicsTestGame extends Game {
 		// This does nothing as the default PlanePrefab mass is 0,
 		// but it is just to show how to set things in components
 		// and to prove that it works in case of an error.
-		((PlaneCollider) prefab.GetComponent(PlaneCollider.class)).SetMass(0f);
+		prefab.GetCollider().SetMass(0f);
 		
 		GameObject playerCamera = new GameObject("Camera").AddComponent(new FreeLook(0.5f, 0)).AddComponent(
 				new Camera(new Matrix4f().InitPerspective((float) Math.toRadians(70.0f), (float) Window.GetWidth() / (float) Window.GetHeight(), 0.01f, 1000.0f)));
@@ -52,7 +51,7 @@ public class PhysicsTestGame extends Game {
 		player.AddComponent(new FreeMove(5.0f));
 		player.AddChild(playerCamera);
 		player.GetTransform().SetPos(new Vector3f(0, 6, 0));
-		player.AddComponent(new CapsuleCollider(2, 1, 3));
+		player.SetCollider(new CapsuleCollider(2, 1, 3));
 		AddObject(player);
 	}
 }

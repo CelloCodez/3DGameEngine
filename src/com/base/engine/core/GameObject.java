@@ -20,6 +20,7 @@ package com.base.engine.core;
 import java.util.ArrayList;
 
 import com.base.engine.components.GameComponent;
+import com.base.engine.physics.Collider;
 import com.base.engine.physics.PhysicsEngine;
 import com.base.engine.rendering.RenderingEngine;
 import com.base.engine.rendering.Shader;
@@ -30,6 +31,7 @@ public class GameObject {
 	private ArrayList<GameComponent> m_components;
 	private Transform m_transform;
 	private CoreEngine m_engine;
+	private Collider m_collider = null;
 	
 	public GameObject(String name) {
 		m_children = new ArrayList<GameObject>();
@@ -37,6 +39,15 @@ public class GameObject {
 		m_transform = new Transform();
 		m_engine = null;
 		m_name = name;
+	}
+	
+	public void SetCollider(Collider col) {
+		m_collider = col;
+		m_collider.SetParentTransform(m_transform);
+	}
+	
+	public Collider GetCollider() {
+		return m_collider;
 	}
 	
 	public GameComponent GetComponent(Class<? extends GameComponent> comp) {
@@ -85,40 +96,6 @@ public class GameObject {
 		
 		for (GameObject child : m_children)
 			child.InputAll(delta);
-	}
-	
-	public void PhysicsUpdateAll(PhysicsEngine physicsEngine) {
-		PhysicsUpdate(physicsEngine);
-		ComponentsPhysicsUpdate(physicsEngine);
-		
-		for (GameObject child : m_children)
-			child.PhysicsUpdateAll(physicsEngine);
-	}
-	
-	private void ComponentsPhysicsUpdate(PhysicsEngine physicsEngine) {
-		for (GameComponent component : m_components) {
-			component.PhysicsUpdate(physicsEngine);
-		}
-	}
-	
-	public void PhysicsUpdate(PhysicsEngine physicsEngine) {
-	}
-	
-	public void AfterPhysicsUpdateAll(PhysicsEngine physicsEngine) {
-		AfterPhysicsUpdate(physicsEngine);
-		ComponentsAfterPhysicsUpdate(physicsEngine);
-		
-		for (GameObject child : m_children)
-			child.AfterPhysicsUpdateAll(physicsEngine);
-	}
-	
-	private void ComponentsAfterPhysicsUpdate(PhysicsEngine physicsEngine) {
-		for (GameComponent component : m_components) {
-			component.AfterPhysicsUpdate(physicsEngine);
-		}
-	}
-	
-	public void AfterPhysicsUpdate(PhysicsEngine physicsEngine) {
 	}
 	
 	public void UpdateAll(float delta) {
@@ -176,5 +153,32 @@ public class GameObject {
 			for (GameObject child : m_children)
 				child.SetEngine(engine);
 		}
+	}
+	
+	public void AllColliderUpdateToJBullet(PhysicsEngine physicsEngine) {
+		for (GameObject child : m_children) {
+			child.AllColliderUpdateToJBullet(physicsEngine);
+		}
+		
+		if (m_collider != null)
+			m_collider.UpdateToJBullet(physicsEngine);
+	}
+	
+	public void AllColliderUpdateToGame() {
+		for (GameObject child : m_children) {
+			child.AllColliderUpdateToGame();
+		}
+		
+		if (m_collider != null)
+			m_collider.UpdateToGame();
+	}
+
+	public void InitializeColliders(PhysicsEngine physicsEngine) {
+		for (GameObject child : m_children) {
+			child.InitializeColliders(physicsEngine);
+		}
+
+		if (m_collider != null)
+			m_collider.Initialize(physicsEngine);
 	}
 }

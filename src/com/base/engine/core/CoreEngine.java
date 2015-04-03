@@ -67,6 +67,8 @@ public class CoreEngine {
 		
 		m_game.Init();
 		
+		m_game.InitializeColliders(m_physicsEngine);
+		
 		double lastTime = Time.GetTime();
 		double unprocessedTime = 0;
 		
@@ -89,13 +91,15 @@ public class CoreEngine {
 					Stop();
 				
 				m_physicsEngine.Update((float) m_frameTime);
-				m_game.PhysicsUpdate(m_physicsEngine);
+				// Update the physics engine's results to the game
+				m_game.UpdateCollidersToGame();
 				
 				m_game.Input((float) m_frameTime);
 				Input.Update();
 				
 				m_game.Update((float) m_frameTime, m_physicsEngine);
-				m_game.AfterPhysicsUpdate(m_physicsEngine);
+				// Update the game's transforms to the physics engine
+				m_game.UpdateCollidersToJBullet(m_physicsEngine);
 				
 				if (frameCounter >= 1.0) {
 					System.out.println(frames);

@@ -29,7 +29,7 @@ public class PlanePrefab extends GameObject {
 		Mesh mesh = new Mesh("plane.obj");
 		AddComponent(new MeshRenderer(mesh, new DefaultMaterial()));
 		GetTransform().SetScale(new Vector3f(width, 1, length));
-		AddComponent(new PlaneCollider(0, width, length));
+		SetCollider(new PlaneCollider(0, width, length));
 	}
 	
 }
