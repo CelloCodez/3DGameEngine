@@ -57,11 +57,11 @@ public class CapsuleCollider extends Collider {
 	
 	@Override
 	public void UpdateToGame() {
-		Transform newTransform = m_rigidbody.getMotionState().getWorldTransform(m_transform);
-		Vector3f newPos = newTransform.origin;
+		m_rigidbody.getWorldTransform(m_transform);
+		Vector3f newPos = m_transform.origin;
 		GetTransform().SetPos(Util.fromJavaxVector3f(newPos));
 		Quat4f q = new Quat4f();
-		newTransform.getRotation(q);
+		m_transform.getRotation(q);
 		GetTransform().SetRot(Util.fromJavaxQuat4f(q));
 		GetTransform().Update();
 	}
