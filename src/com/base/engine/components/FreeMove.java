@@ -55,7 +55,6 @@ public class FreeMove extends GameComponent {
 	}
 	
 	private void Move(Vector3f dir, float amt) {
-		//		GetTransform().SetPos(GetTransform().GetPos().Add(dir.Mul(amt)));
 		((CapsuleCollider) GetParent().GetCollider()).Translate(dir.Mul(amt));
 	}
 }

@@ -50,7 +50,7 @@ public class PlaneCollider extends Collider {
 		m_rigidbody.setRestitution(0.0f);
 		
 		m_rigidbody.setCcdMotionThreshold(1f);
-		m_rigidbody.setCcdSweptSphereRadius(1f);
+		m_rigidbody.setCcdSweptSphereRadius(0.2f);
 		
 		physicsEngine.addRigidBody(m_rigidbody);
 	}
@@ -63,6 +63,7 @@ public class PlaneCollider extends Collider {
 		Quat4f q = new Quat4f();
 		newTransform.getRotation(q);
 		GetTransform().SetRot(Util.fromJavaxQuat4f(q));
+		GetTransform().Update();
 	}
 	
 	@Override
@@ -101,7 +102,7 @@ public class PlaneCollider extends Collider {
 		m_rigidbody.setRestitution(rest);
 		
 		m_rigidbody.setCcdMotionThreshold(1f);
-		m_rigidbody.setCcdSweptSphereRadius(1f);
+		m_rigidbody.setCcdSweptSphereRadius(0.2f);
 		
 		physicsEngine.addRigidBody(m_rigidbody);
 	}

@@ -30,7 +30,7 @@ public abstract class Game {
 		GetRootObject().InputAll(delta);
 	}
 	
-	public void Update(float delta, PhysicsEngine physicsEngine) {
+	public void Update(float delta) {
 		GetRootObject().UpdateAll(delta);
 	}
 	

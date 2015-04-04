@@ -39,8 +39,8 @@ public class CoreEngine {
 		game.SetEngine(this);
 	}
 	
-	public void CreateWindow(String title) {
-		Window.CreateWindow(m_width, m_height, title);
+	public void CreateWindow(String title, boolean vsync) {
+		Window.CreateWindow(m_width, m_height, title, vsync);
 		this.m_renderingEngine = new RenderingEngine();
 		this.m_physicsEngine = new PhysicsEngine();
 	}
@@ -97,7 +97,7 @@ public class CoreEngine {
 				m_game.Input((float) m_frameTime);
 				Input.Update();
 				
-				m_game.Update((float) m_frameTime, m_physicsEngine);
+				m_game.Update((float) m_frameTime);
 				// Update the game's transforms to the physics engine
 				m_game.UpdateCollidersToJBullet(m_physicsEngine);
 				
