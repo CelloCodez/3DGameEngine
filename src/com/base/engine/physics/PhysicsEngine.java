@@ -48,7 +48,8 @@ public class PhysicsEngine {
 	}
 	
 	public void Update(float delta) {
-		m_dynamicsWorld.stepSimulation(delta, 12);
+		m_dynamicsWorld.updateAabbs();
+		m_dynamicsWorld.stepSimulation(delta, 7);
 	}
 	
 	public void addRigidBody(RigidBody rigidBody) {

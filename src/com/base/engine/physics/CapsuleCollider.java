@@ -49,9 +49,6 @@ public class CapsuleCollider extends Collider {
 		m_rigidbody = new RigidBody(rbci);
 		m_rigidbody.setRestitution(0.0f);
 		
-		m_rigidbody.setCcdMotionThreshold(1f);
-		m_rigidbody.setCcdSweptSphereRadius(0.2f);
-		
 		physicsEngine.addRigidBody(m_rigidbody);
 	}
 	
