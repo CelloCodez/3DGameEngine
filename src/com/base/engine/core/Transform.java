@@ -86,7 +86,7 @@ public class Transform {
 	}
 	
 	private Matrix4f GetParentMatrix() {
-		if (m_parent != null && m_parent.HasChanged())
+		if (m_parent != null)
 			m_parentMatrix = m_parent.GetTransformation();
 		
 		return m_parentMatrix;
