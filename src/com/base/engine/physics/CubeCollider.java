@@ -20,22 +20,24 @@ import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 
 import com.base.engine.core.Util;
-import com.bulletphysics.collision.shapes.CapsuleShape;
+import com.bulletphysics.collision.shapes.BoxShape;
 import com.bulletphysics.collision.shapes.CollisionShape;
 import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.dynamics.RigidBodyConstructionInfo;
 import com.bulletphysics.linearmath.DefaultMotionState;
 import com.bulletphysics.linearmath.Transform;
 
-public class CapsuleCollider extends Collider {
-	
-	private float m_radius;
+public class CubeCollider extends Collider {
+
+	private float m_width;
 	private float m_height;
+	private float m_length;
 	
-	public CapsuleCollider(float mass, float radius, float height) {
+	public CubeCollider(float mass, float width, float height, float length) {
 		super(mass);
-		m_radius = radius;
+		m_width = width;
 		m_height = height;
+		m_length = length;
 	}
 	
 	@Override
@@ -44,7 +46,7 @@ public class CapsuleCollider extends Collider {
 		m_transform.setIdentity();
 		m_transform.set(GetTransform().GetTransformation().toVecmath());
 		DefaultMotionState mState = new DefaultMotionState(m_transform);
-		CollisionShape shape = new CapsuleShape(m_radius, m_height);
+		CollisionShape shape = new BoxShape(new Vector3f(m_width / 2f, m_height / 2f, m_length / 2f));
 		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
 		m_rigidbody = new RigidBody(rbci);
 		m_rigidbody.setRestitution(0.0f);
@@ -54,12 +56,13 @@ public class CapsuleCollider extends Collider {
 	
 	@Override
 	public void UpdateToGame() {
-		m_rigidbody.getCenterOfMassTransform(m_transform);
+		m_rigidbody.getWorldTransform(m_transform);
 		Vector3f newPos = m_transform.origin;
 		GetTransform().SetPos(Util.fromJavaxVector3f(newPos));
 		Quat4f q = new Quat4f();
 		m_transform.getRotation(q);
 		GetTransform().SetRot(Util.fromJavaxQuat4f(q));
+		GetTransform().Update();
 	}
 	
 	@Override
@@ -72,6 +75,7 @@ public class CapsuleCollider extends Collider {
 			}
 			// now update its transform with things changed in the game
 			if (GetTransform().HasChanged()) {
+				m_rigidbody.getMotionState().setWorldTransform(new Transform(GetTransform().GetTransformation().toVecmath()));
 				m_rigidbody.setCenterOfMassTransform(new Transform(GetTransform().GetTransformation().toVecmath()));
 				m_rigidbody.activate();
 			}
@@ -89,7 +93,7 @@ public class CapsuleCollider extends Collider {
 		float rest = m_rigidbody.getRestitution();
 		
 		DefaultMotionState mState = new DefaultMotionState(m_transform);
-		CollisionShape shape = new CapsuleShape(m_radius, m_height);
+		CollisionShape shape = new BoxShape(new Vector3f(m_width / 2f, m_height / 2f, m_length / 2f));
 		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
 		m_rigidbody = new RigidBody(rbci);
 		m_rigidbody.setLinearVelocity(linVel);

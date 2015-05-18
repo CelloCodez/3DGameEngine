@@ -19,7 +19,6 @@ package com.base.engine.components;
 
 import com.base.engine.core.Input;
 import com.base.engine.core.Vector3f;
-import com.base.engine.physics.CapsuleCollider;
 
 public class FreeMove extends GameComponent {
 	private float m_speed;
@@ -55,6 +54,6 @@ public class FreeMove extends GameComponent {
 	}
 	
 	private void Move(Vector3f dir, float amt) {
-		((CapsuleCollider) GetParent().GetCollider()).Translate(dir.Mul(amt));
+		GetParent().GetCollider().Translate(dir.Mul(amt));
 	}
 }

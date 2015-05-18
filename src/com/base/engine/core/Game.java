@@ -52,15 +52,15 @@ public abstract class Game {
 	public void SetEngine(CoreEngine engine) {
 		GetRootObject().SetEngine(engine);
 	}
-
+	
 	public void UpdateCollidersToJBullet(PhysicsEngine physicsEngine) {
 		GetRootObject().AllColliderUpdateToJBullet(physicsEngine);
 	}
-
+	
 	public void UpdateCollidersToGame() {
 		GetRootObject().AllColliderUpdateToGame();
 	}
-
+	
 	public void InitializeColliders(PhysicsEngine physicsEngine) {
 		GetRootObject().InitializeColliders(physicsEngine);
 	}
