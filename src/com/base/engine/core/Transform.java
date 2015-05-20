@@ -20,6 +20,7 @@ package com.base.engine.core;
 public class Transform {
 	private Transform m_parent;
 	private Matrix4f m_parentMatrix;
+	private Matrix4f m_parentMatrixIdentityScale;
 	
 	private Vector3f m_pos;
 	private Quaternion m_rot;
@@ -35,6 +36,7 @@ public class Transform {
 		m_scale = new Vector3f(1, 1, 1);
 		
 		m_parentMatrix = new Matrix4f().InitIdentity();
+		m_parentMatrixIdentityScale = new Matrix4f().InitIdentity();
 	}
 	
 	public void Update() {
@@ -85,11 +87,31 @@ public class Transform {
 		return GetParentMatrix().Mul(translationMatrix.Mul(rotationMatrix.Mul(scaleMatrix)));
 	}
 	
+	/**
+	 * Returns a Matrix4f of this Transform but with a scale of (1, 1, 1).
+	 * Used for physics.
+	 * @return
+	 */
+	public Matrix4f GetTransformationIdentityScale() {
+		Matrix4f translationMatrix = new Matrix4f().InitTranslation(m_pos.GetX(), m_pos.GetY(), m_pos.GetZ());
+		Matrix4f rotationMatrix = m_rot.ToRotationMatrix();
+		Matrix4f scaleMatrix = new Matrix4f().InitScale(1, 1, 1);
+		
+		return GetParentMatrixIdentityScale().Mul(translationMatrix.Mul(rotationMatrix.Mul(scaleMatrix)));
+	}
+	
 	private Matrix4f GetParentMatrix() {
 		if (m_parent != null)
 			m_parentMatrix = m_parent.GetTransformation();
 		
 		return m_parentMatrix;
+	}
+	
+	private Matrix4f GetParentMatrixIdentityScale() {
+		if (m_parent != null)
+			m_parentMatrixIdentityScale = m_parent.GetTransformationIdentityScale();
+		
+		return m_parentMatrixIdentityScale;
 	}
 	
 	public void SetParent(Transform parent) {

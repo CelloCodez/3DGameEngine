@@ -24,12 +24,12 @@ import com.base.engine.rendering.Mesh;
 
 public class CubePrefab extends GameObject {
 	
-	public CubePrefab(String name, float width, float height, float length) {
+	public CubePrefab(String name, float width, float height, float length, float mass) {
 		super(name);
 		Mesh mesh = new Mesh("cube.obj");
 		AddComponent(new MeshRenderer(mesh, new DefaultMaterial()));
 		GetTransform().SetScale(new Vector3f(width, height, length));
-		SetCollider(new CubeCollider(0, width, height, length));
+		SetCollider(new CubeCollider(mass, width, height, length));
 	}
 	
 }

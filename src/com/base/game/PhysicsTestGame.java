@@ -38,16 +38,12 @@ public class PhysicsTestGame extends Game {
 		lightContainer.GetTransform().SetRot(new Quaternion(new Vector3f(1, 0, 0), (float) Math.toRadians(-45)));
 		AddObject(lightContainer);
 		
-		GameObject prefab = new PlanePrefab("Plane", 5, 5);
+		GameObject prefab = new PlanePrefab("Plane", 5, 5, 0f);
 		AddObject(prefab);
-		// This does nothing as the default PlanePrefab mass is 0,
-		// but it is just to show how to set things in components
-		// and to prove that it works in case of an error.
-		prefab.GetCollider().SetMass(0f);
 		
-		GameObject cube = new CubePrefab("FallingCube", 1, 1, 1);
+		GameObject cube = new CubePrefab("FallingCube", 1, 2, 1, 10f);
 		cube.GetTransform().SetPos(new Vector3f(2f, 10f, 2f));
-		cube.GetCollider().SetMass(2f);
+		cube.GetTransform().SetRot(new Quaternion(new Vector3f(45, 0, 0), 0));
 		AddObject(cube);
 		
 		GameObject playerCamera = new GameObject("Camera").AddComponent(new FreeLook(0.5f, 0)).AddComponent(
@@ -55,8 +51,8 @@ public class PhysicsTestGame extends Game {
 		GameObject player = new GameObject("Player");
 		player.AddComponent(new FreeLook(0, 0.5f));
 		player.AddComponent(new FreeMove(6.0f));
-		player.GetTransform().SetPos(new Vector3f(0, 6, 0));
-		player.SetCollider(new CapsuleCollider(2, 1, 3));
+		player.GetTransform().SetPos(new Vector3f(0, 20, 0));
+		player.SetCollider(new CapsuleCollider(10, 1f, 3f));
 		player.AddChild(playerCamera);
 		AddObject(player);
 	}

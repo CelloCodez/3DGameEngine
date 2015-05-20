@@ -28,7 +28,7 @@ import com.bulletphysics.linearmath.DefaultMotionState;
 import com.bulletphysics.linearmath.Transform;
 
 public class CubeCollider extends Collider {
-
+	
 	private float m_width;
 	private float m_height;
 	private float m_length;
@@ -43,20 +43,23 @@ public class CubeCollider extends Collider {
 	@Override
 	public void Initialize(PhysicsEngine physicsEngine) {
 		m_transform = new Transform();
-		m_transform.setIdentity();
-		m_transform.set(GetTransform().GetTransformation().toVecmath());
+		m_transform.set(GetTransform().GetTransformationIdentityScale().toVecmath());
 		DefaultMotionState mState = new DefaultMotionState(m_transform);
 		CollisionShape shape = new BoxShape(new Vector3f(m_width / 2f, m_height / 2f, m_length / 2f));
 		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
 		m_rigidbody = new RigidBody(rbci);
 		m_rigidbody.setRestitution(0.0f);
 		
+		m_rigidbody.setCcdMotionThreshold(1f);
+		m_rigidbody.setCcdSweptSphereRadius(0.2f);
+		
 		physicsEngine.addRigidBody(m_rigidbody);
 	}
 	
 	@Override
 	public void UpdateToGame() {
-		m_rigidbody.getWorldTransform(m_transform);
+		// apply changes made in the physics engine
+		m_rigidbody.getMotionState().getWorldTransform(m_transform);
 		Vector3f newPos = m_transform.origin;
 		GetTransform().SetPos(Util.fromJavaxVector3f(newPos));
 		Quat4f q = new Quat4f();
@@ -75,8 +78,8 @@ public class CubeCollider extends Collider {
 			}
 			// now update its transform with things changed in the game
 			if (GetTransform().HasChanged()) {
-				m_rigidbody.getMotionState().setWorldTransform(new Transform(GetTransform().GetTransformation().toVecmath()));
-				m_rigidbody.setCenterOfMassTransform(new Transform(GetTransform().GetTransformation().toVecmath()));
+				m_rigidbody.getMotionState().setWorldTransform(new Transform(GetTransform().GetTransformationIdentityScale().toVecmath()));
+				m_rigidbody.setCenterOfMassTransform(new Transform(GetTransform().GetTransformationIdentityScale().toVecmath()));
 				m_rigidbody.activate();
 			}
 		}

@@ -24,12 +24,12 @@ import com.base.engine.rendering.Mesh;
 
 public class PlanePrefab extends GameObject {
 	
-	public PlanePrefab(String name, float width, float length) {
+	public PlanePrefab(String name, float width, float length, float mass) {
 		super(name);
 		Mesh mesh = new Mesh("plane.obj");
 		AddComponent(new MeshRenderer(mesh, new DefaultMaterial()));
 		GetTransform().SetScale(new Vector3f(width, 1, length));
-		SetCollider(new PlaneCollider(0, width, length));
+		SetCollider(new PlaneCollider(mass, width, length));
 	}
 	
 }

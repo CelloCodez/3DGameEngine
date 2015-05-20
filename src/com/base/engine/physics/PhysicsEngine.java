@@ -40,7 +40,7 @@ public class PhysicsEngine {
 		m_dispatcher = new CollisionDispatcher(m_collisionConfiguration);
 		m_solver = new SequentialImpulseConstraintSolver();
 		m_dynamicsWorld = new DiscreteDynamicsWorld(m_dispatcher, m_broadphase, m_solver, m_collisionConfiguration);
-		m_dynamicsWorld.setGravity(new Vector3f(0, -5, 0));
+		m_dynamicsWorld.setGravity(new Vector3f(0, -10, 0));
 	}
 	
 	public void setGravity(com.base.engine.core.Vector3f gravity) {
@@ -48,7 +48,6 @@ public class PhysicsEngine {
 	}
 	
 	public void Update(float delta) {
-		m_dynamicsWorld.updateAabbs();
 		m_dynamicsWorld.stepSimulation(delta, 7);
 	}
 	
