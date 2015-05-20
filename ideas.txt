@@ -6,9 +6,10 @@ Things to do:
 
 Physics
 Sound
-Events (like OnTouch then play a sound, etc.)
-Prefabs
-3D Picking (within the physics engine)
+Events (like OnTouch then play a sound, OnTouch then open a door, etc. to make simple games)
+Prefabs (Planes, Cubes, Spheres)
+3D Picking (within the physics engine; can  be used in level editor for object selection and movement with mouse)
 Level Editor
+Developer-Optional Active Objective System (if wanted in editor, then a game can have objectives like "Get to the Exit" that scripts can activate and modify)
 (Minimal) Scripting
 --> From Scripting: A Library of Scripts (Player/First Person Camera, Time of day script for Direction Lights, etc.)
