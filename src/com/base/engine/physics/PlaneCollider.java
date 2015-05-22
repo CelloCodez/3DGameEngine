@@ -43,7 +43,7 @@ public class PlaneCollider extends Collider {
 		m_transform = new Transform();
 		m_transform.set(GetTransform().GetTransformationIdentityScale().toVecmath());
 		DefaultMotionState mState = new DefaultMotionState(m_transform);
-		CollisionShape shape = new BoxShape(new Vector3f(m_width / 2f, 0.2f, m_length / 2f));
+		CollisionShape shape = new BoxShape(new Vector3f(m_width, 0.2f, m_length));
 		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
 		m_rigidbody = new RigidBody(rbci);
 		m_rigidbody.setRestitution(0.0f);

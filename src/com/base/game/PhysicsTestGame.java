@@ -41,7 +41,7 @@ public class PhysicsTestGame extends Game {
 		GameObject prefab = new PlanePrefab("Plane", 5, 5, 0f);
 		AddObject(prefab);
 		
-		GameObject cube = new CubePrefab("FallingCube", 1, 2, 1, 10f);
+		GameObject cube = new CubePrefab("FallingCube", 1, 1, 1, 10f);
 		cube.GetTransform().SetPos(new Vector3f(2f, 10f, 2f));
 		cube.GetTransform().SetRot(new Quaternion(new Vector3f(45, 0, 0), 0));
 		AddObject(cube);
