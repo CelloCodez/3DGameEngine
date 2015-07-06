@@ -16,19 +16,14 @@
 
 package com.base.game;
 
-import com.base.engine.components.Camera;
 import com.base.engine.components.DirectionalLight;
-import com.base.engine.components.FreeLook;
-import com.base.engine.components.FreeMove;
 import com.base.engine.core.Game;
 import com.base.engine.core.GameObject;
-import com.base.engine.core.Matrix4f;
 import com.base.engine.core.Quaternion;
 import com.base.engine.core.Vector3f;
-import com.base.engine.physics.CapsuleCollider;
 import com.base.engine.prefabs.CubePrefab;
 import com.base.engine.prefabs.PlanePrefab;
-import com.base.engine.rendering.Window;
+import com.base.engine.prefabs.PlayerPrefab;
 
 public class PhysicsTestGame extends Game {
 	public void Init() {
@@ -42,18 +37,11 @@ public class PhysicsTestGame extends Game {
 		AddObject(prefab);
 		
 		GameObject cube = new CubePrefab("FallingCube", 1, 1, 1, 10f);
-		cube.GetTransform().SetPos(new Vector3f(2f, 10f, 2f));
-		cube.GetTransform().SetRot(new Quaternion(new Vector3f(45, 0, 0), 0));
+		cube.GetTransform().SetPos(new Vector3f(2f, 100f, 2f));
+		cube.GetTransform().SetRot(new Quaternion(new Vector3f(40, 0, 0), 0));
 		AddObject(cube);
 		
-		GameObject playerCamera = new GameObject("Camera").AddComponent(new FreeLook(0.5f, 0)).AddComponent(
-				new Camera(new Matrix4f().InitPerspective((float) Math.toRadians(70.0f), (float) Window.GetWidth() / (float) Window.GetHeight(), 0.01f, 1000.0f)));
-		GameObject player = new GameObject("Player");
-		player.AddComponent(new FreeLook(0, 0.5f));
-		player.AddComponent(new FreeMove(6.0f));
-		player.GetTransform().SetPos(new Vector3f(0, 20, 0));
-		player.SetCollider(new CapsuleCollider(10, 1f, 3f));
-		player.AddChild(playerCamera);
+		GameObject player = new PlayerPrefab("Player", new Vector3f(0, 10, 0));
 		AddObject(player);
 	}
 }

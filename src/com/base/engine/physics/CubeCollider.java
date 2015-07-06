@@ -16,6 +16,7 @@
 
 package com.base.engine.physics;
 
+import javax.vecmath.Matrix4f;
 import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 
@@ -46,7 +47,9 @@ public class CubeCollider extends Collider {
 		m_transform.set(GetTransform().GetTransformationIdentityScale().toVecmath());
 		DefaultMotionState mState = new DefaultMotionState(m_transform);
 		CollisionShape shape = new BoxShape(new Vector3f(m_width, m_height, m_length));
-		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
+		Vector3f inertia = new Vector3f(0, 0, 0);
+		shape.calculateLocalInertia(m_mass, inertia);
+		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, inertia);
 		m_rigidbody = new RigidBody(rbci);
 		m_rigidbody.setRestitution(0.0f);
 		
@@ -59,11 +62,12 @@ public class CubeCollider extends Collider {
 	@Override
 	public void UpdateToGame() {
 		// apply changes made in the physics engine
-		m_rigidbody.getMotionState().getWorldTransform(m_transform);
+		m_transform = ((DefaultMotionState) m_rigidbody.getMotionState()).graphicsWorldTrans;
 		Vector3f newPos = m_transform.origin;
 		GetTransform().SetPos(Util.fromJavaxVector3f(newPos));
 		Quat4f q = new Quat4f();
 		m_transform.getRotation(q);
+		//		m_rigidbody.getOrientation(q);
 		GetTransform().SetRot(Util.fromJavaxQuat4f(q));
 		GetTransform().Update();
 	}
@@ -97,7 +101,9 @@ public class CubeCollider extends Collider {
 		
 		DefaultMotionState mState = new DefaultMotionState(m_transform);
 		CollisionShape shape = new BoxShape(new Vector3f(m_width / 2f, m_height / 2f, m_length / 2f));
-		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
+		Vector3f inertia = new Vector3f(0, 0, 0);
+		shape.calculateLocalInertia(m_mass, inertia);
+		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, inertia);
 		m_rigidbody = new RigidBody(rbci);
 		m_rigidbody.setLinearVelocity(linVel);
 		m_rigidbody.setAngularVelocity(angVel);
