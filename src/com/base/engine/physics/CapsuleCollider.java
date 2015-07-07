@@ -44,9 +44,7 @@ public class CapsuleCollider extends Collider {
 		m_transform.set(GetTransform().GetTransformation().toVecmath());
 		DefaultMotionState mState = new DefaultMotionState(m_transform);
 		CollisionShape shape = new CapsuleShape(m_radius, m_height);
-		Vector3f inertia = new Vector3f(0, 0, 0);
-		shape.calculateLocalInertia(m_mass, inertia);
-		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, inertia);
+		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
 		m_rigidbody = new RigidBody(rbci);
 		m_rigidbody.setRestitution(0.0f);
 		
@@ -94,9 +92,7 @@ public class CapsuleCollider extends Collider {
 		
 		DefaultMotionState mState = new DefaultMotionState(m_transform);
 		CollisionShape shape = new CapsuleShape(m_radius, m_height);
-		Vector3f inertia = new Vector3f(0, 0, 0);
-		shape.calculateLocalInertia(m_mass, inertia);
-		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, inertia);
+		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, new Vector3f(0, 0, 0));
 		m_rigidbody = new RigidBody(rbci);
 		m_rigidbody.setLinearVelocity(linVel);
 		m_rigidbody.setAngularVelocity(angVel);
