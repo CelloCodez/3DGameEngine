@@ -16,6 +16,8 @@
 
 package com.base.engine.prefabs;
 
+import javax.vecmath.Vector3f;
+
 import com.base.engine.components.GameComponent;
 
 public class PlayerRestrictRotation extends GameComponent {
@@ -25,17 +27,9 @@ public class PlayerRestrictRotation extends GameComponent {
 	
 	@Override
 	public void Update(float delta) {
-		// TODO
-		// TODO
-		// TODO
-		// TODO
-		// TODO
-		// TODO
-		// TODO
-		// TODO
-		// TODO
-		// TODO
-		// lol, I think I have to do this.
-		// or else the player just falls over.
+		// good enough until I can figure out more functions for quaternions to keep them upright...
+		Vector3f curVel = new Vector3f(0, 0, 0);
+		GetParent().GetCollider().GetRigidbody().getAngularVelocity(curVel);
+		GetParent().GetCollider().GetRigidbody().setAngularVelocity(new Vector3f(0, curVel.y, 0));
 	}
 }

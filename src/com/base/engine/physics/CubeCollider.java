@@ -16,7 +16,6 @@
 
 package com.base.engine.physics;
 
-import javax.vecmath.Matrix4f;
 import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 
