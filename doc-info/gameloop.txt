@@ -1,0 +1,6 @@
+The game update loop order is as follows:
+
+Tick physics engine
+Tick input
+Physics events (OnCollide, OnCollideStay, etc.)
+Tick the game

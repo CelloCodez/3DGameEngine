@@ -53,7 +53,7 @@ public class CapsuleCollider extends Collider {
 		m_rigidbody.setCcdMotionThreshold(1f);
 		m_rigidbody.setCcdSweptSphereRadius(0.2f);
 		
-		physicsEngine.addRigidBody(m_rigidbody);
+		physicsEngine.addRigidBody(m_rigidbody, GetParent());
 	}
 	
 	@Override
@@ -104,8 +104,8 @@ public class CapsuleCollider extends Collider {
 		
 		m_rigidbody.setCcdMotionThreshold(1f);
 		m_rigidbody.setCcdSweptSphereRadius(0.2f);
-		
-		physicsEngine.addRigidBody(m_rigidbody);
+
+		physicsEngine.addRigidBody(m_rigidbody, GetParent());
 	}
 	
 }

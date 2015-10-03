@@ -16,10 +16,12 @@
 
 package com.base.engine.physics;
 
+import com.base.engine.core.GameObject;
 import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.linearmath.Transform;
 
 public class Collider {
+	private GameObject m_parent;
 	
 	protected boolean m_changed = false;
 	protected RigidBody m_rigidbody;
@@ -29,6 +31,14 @@ public class Collider {
 	
 	public Collider(float mass) {
 		m_mass = mass;
+	}
+	
+	public void SetParent(GameObject parent) {
+		this.m_parent = parent;
+	}
+	
+	public GameObject GetParent() {
+		return m_parent;
 	}
 	
 	public void SetParentTransform(com.base.engine.core.Transform transform) {

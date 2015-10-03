@@ -50,10 +50,13 @@ public abstract class GameComponent {
 	
 	public void AddToEngine(CoreEngine engine) {
 	}
-
+	
 	public void PhysicsUpdate(PhysicsEngine physicsEngine) {
 	}
-
+	
 	public void AfterPhysicsUpdate(PhysicsEngine physicsEngine) {
+	}
+	
+	public void OnIsColliding(GameObject other) {
 	}
 }

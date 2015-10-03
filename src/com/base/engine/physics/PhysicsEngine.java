@@ -18,10 +18,13 @@ package com.base.engine.physics;
 
 import javax.vecmath.Vector3f;
 
+import com.base.engine.core.GameObject;
 import com.bulletphysics.collision.broadphase.BroadphaseInterface;
 import com.bulletphysics.collision.broadphase.DbvtBroadphase;
 import com.bulletphysics.collision.dispatch.CollisionDispatcher;
+import com.bulletphysics.collision.dispatch.CollisionObject;
 import com.bulletphysics.collision.dispatch.DefaultCollisionConfiguration;
+import com.bulletphysics.collision.narrowphase.PersistentManifold;
 import com.bulletphysics.dynamics.DiscreteDynamicsWorld;
 import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.dynamics.constraintsolver.SequentialImpulseConstraintSolver;
@@ -42,6 +45,20 @@ public class PhysicsEngine {
 		m_dynamicsWorld = new DiscreteDynamicsWorld(m_dispatcher, m_broadphase, m_solver, m_collisionConfiguration);
 		m_dynamicsWorld.setGravity(new Vector3f(0, -10, 0));
 	}
+
+	public void DoPhysicsEvents() {
+		int numManifolds = m_dynamicsWorld.getDispatcher().getNumManifolds();
+		for (int i = 0; i < numManifolds; i++) {
+			PersistentManifold contactManifold = m_dynamicsWorld.getDispatcher().getManifoldByIndexInternal(i);
+			if (contactManifold.getNumContacts() > 0) {
+				GameObject a = (GameObject) ((CollisionObject) contactManifold.getBody0()).getUserPointer();
+				GameObject b = (GameObject) ((CollisionObject) contactManifold.getBody1()).getUserPointer();
+				a.OnIsColliding(b);
+				b.OnIsColliding(a);
+			}
+		}
+		
+	}
 	
 	public void setGravity(com.base.engine.core.Vector3f gravity) {
 		m_dynamicsWorld.setGravity(new Vector3f(gravity.GetX(), gravity.GetY(), gravity.GetZ()));
@@ -51,7 +68,9 @@ public class PhysicsEngine {
 		m_dynamicsWorld.stepSimulation(delta, 7);
 	}
 	
-	public void addRigidBody(RigidBody rigidBody) {
+	public void addRigidBody(RigidBody rigidBody, GameObject parent) {
+		// ((GameObject) rigidBody.getUserPointer()) is the GameObject that the RigidBody belongs to
+		rigidBody.setUserPointer(parent);
 		m_dynamicsWorld.addRigidBody(rigidBody);
 	}
 	

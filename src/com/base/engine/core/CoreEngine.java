@@ -97,6 +97,8 @@ public class CoreEngine {
 				m_game.Input((float) m_frameTime);
 				Input.Update();
 				
+				m_physicsEngine.DoPhysicsEvents();
+				
 				m_game.Update((float) m_frameTime);
 				// Update the game's transforms to the physics engine
 				m_game.UpdateCollidersToJBullet(m_physicsEngine);

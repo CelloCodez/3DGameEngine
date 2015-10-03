@@ -44,6 +44,7 @@ public class GameObject {
 	public void SetCollider(Collider col) {
 		m_collider = col;
 		m_collider.SetParentTransform(m_transform);
+		m_collider.SetParent(this);
 	}
 	
 	public Collider GetCollider() {
@@ -155,6 +156,11 @@ public class GameObject {
 		}
 	}
 	
+	public void OnIsColliding(GameObject other) {
+		for (GameComponent component : m_components)
+			component.OnIsColliding(other);
+	}
+	
 	public void AllColliderUpdateToJBullet(PhysicsEngine physicsEngine) {
 		for (GameObject child : m_children) {
 			child.AllColliderUpdateToJBullet(physicsEngine);
@@ -172,12 +178,12 @@ public class GameObject {
 		if (m_collider != null)
 			m_collider.UpdateToGame();
 	}
-
+	
 	public void InitializeColliders(PhysicsEngine physicsEngine) {
 		for (GameObject child : m_children) {
 			child.InitializeColliders(physicsEngine);
 		}
-
+		
 		if (m_collider != null)
 			m_collider.Initialize(physicsEngine);
 	}

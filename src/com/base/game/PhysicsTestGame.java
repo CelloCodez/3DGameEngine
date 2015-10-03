@@ -33,8 +33,9 @@ public class PhysicsTestGame extends Game {
 		lightContainer.GetTransform().SetRot(new Quaternion(new Vector3f(1, 0, 0), (float) Math.toRadians(-45)));
 		AddObject(lightContainer);
 		
-		GameObject prefab = new PlanePrefab("Plane", 5, 5, 0f);
-		AddObject(prefab);
+		GameObject planePrefab = new PlanePrefab("Plane", 5, 5, 0f);
+		planePrefab.AddComponent(new TestComponent());
+		AddObject(planePrefab);
 		
 		GameObject cube = new CubePrefab("FallingCube", 1, 1, 1, 10f);
 		cube.GetTransform().SetPos(new Vector3f(2f, 100f, 2f));
