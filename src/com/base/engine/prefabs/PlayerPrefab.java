@@ -17,8 +17,6 @@
 package com.base.engine.prefabs;
 
 import com.base.engine.components.Camera;
-import com.base.engine.components.FreeLook;
-import com.base.engine.components.FreeMove;
 import com.base.engine.core.GameObject;
 import com.base.engine.core.Matrix4f;
 import com.base.engine.core.Vector3f;
@@ -29,14 +27,12 @@ public class PlayerPrefab extends GameObject {
 	
 	public PlayerPrefab(String name, Vector3f position) {
 		super(name);
-		GameObject playerCamera = new GameObject("PrefabPlayerCamera").AddComponent(new FreeLook(0.5f, 0)).AddComponent(
-				new Camera(new Matrix4f().InitPerspective((float) Math.toRadians(70.0f), (float) Window.GetWidth() / (float) Window.GetHeight(), 0.01f, 1000.0f)));
-		AddComponent(new FreeLook(0, 0.5f));
-		AddComponent(new FreeMove(6.0f));
-		AddComponent(new PlayerRestrictRotation());
+		GameObject playerCamera = new GameObject("PrefabPlayerCamera").AddComponent(new Camera(new Matrix4f().InitPerspective((float) Math.toRadians(70.0f),
+				(float) Window.GetWidth() / (float) Window.GetHeight(), 0.01f, 1000.0f)));
 		GetTransform().SetPos(position);
 		SetCollider(new CapsuleCollider(10, 1f, 3f));
 		AddChild(playerCamera);
+		AddComponent(new PlayerComponent(0.5f, 5.0f));
 	}
 	
 }

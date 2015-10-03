@@ -19,6 +19,7 @@ package com.base.engine.prefabs;
 import javax.vecmath.Vector3f;
 
 import com.base.engine.components.GameComponent;
+import com.base.engine.core.Quaternion;
 
 public class PlayerRestrictRotation extends GameComponent {
 	
@@ -27,9 +28,23 @@ public class PlayerRestrictRotation extends GameComponent {
 	
 	@Override
 	public void Update(float delta) {
-		// good enough until I can figure out more functions for quaternions to keep them upright...
+		// good enough until I can figure out more functions for quaternions to keep them upright
+		
+		// cancel any velocity that could make it fall over
 		Vector3f curVel = new Vector3f(0, 0, 0);
 		GetParent().GetCollider().GetRigidbody().getAngularVelocity(curVel);
 		GetParent().GetCollider().GetRigidbody().setAngularVelocity(new Vector3f(0, curVel.y, 0));
+		
+		// zero out the rotation that isn't horizontal (only y-axis rotation allowed)
+		GetTransform().SetRot(new Quaternion(GetTransform().GetRot().GetUp(), 0));
+//		Quaternion newRot = GetTransform().GetRot();
+//		newRot.SetX(0);
+//		newRot.SetZ(0);
+//		float w = newRot.GetW();
+//		float y = newRot.GetY();
+//		double mag = Math.sqrt(w * w + y * y);
+//		newRot.SetW((float) (w / mag));
+//		newRot.SetY((float) (y / mag));
+//		GetTransform().GetRot().Set(newRot);
 	}
 }
