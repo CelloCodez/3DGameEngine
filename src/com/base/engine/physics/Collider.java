@@ -17,6 +17,7 @@
 package com.base.engine.physics;
 
 import com.base.engine.core.GameObject;
+import com.bulletphysics.collision.dispatch.CollisionFlags;
 import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.linearmath.Transform;
 
@@ -56,6 +57,14 @@ public class Collider {
 	}
 	
 	public void UpdateToJBullet(PhysicsEngine physicsEngine) {
+	}
+	
+	public void SetTrigger(boolean trigger) {
+		if (trigger) {
+			m_rigidbody.setCollisionFlags(m_rigidbody.getCollisionFlags() | CollisionFlags.NO_CONTACT_RESPONSE);
+		} else {
+			m_rigidbody.setCollisionFlags(m_rigidbody.getCollisionFlags() & ~CollisionFlags.NO_CONTACT_RESPONSE);
+		}
 	}
 	
 	public void ApplyCentralForce(com.base.engine.core.Vector3f force) {
