@@ -76,12 +76,7 @@ public class PlayerComponent extends GameComponent {
 		if (Input.GetMouseDown(0)) {
 			Input.SetCursor(false);
 			
-			// temporary raycast testing code
-			System.out.println("Click");
-			
-			// TODO better forward direction for player code
-			
-			RaycastOut raycast = Main.Physics().Raycast(GetTransform().GetPos(), (GetTransform().GetRot().Mul(GetParent().FindChild(m_childCameraName).GetTransform().GetRot())).GetForward(), 100f);
+			RaycastOut raycast = Main.Physics().Raycast(GetTransform().GetPos(), GetParent().FindChild(m_childCameraName).GetTransform().GetTransformedRot().GetForward(), 100f);
 			if (raycast.hit) {
 				System.out.println(raycast.hitObject.GetName() + " clicked");
 			}

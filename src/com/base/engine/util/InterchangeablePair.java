@@ -1,5 +1,5 @@
 /**
- * I'm not putting a license with this file, it was too simple to code, etc.
+ * I'm not putting a license with this file, it was too simple to code and not really specific to this project
  * I would rather this code be able to be used wherever wanted
  */
 
