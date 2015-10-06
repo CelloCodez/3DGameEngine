@@ -1,5 +1,4 @@
 /*
- * Copyright (C) 2014 Benny Bobaganoosh
  * Copyright (C) 2015 CelloCodez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,23 +14,23 @@
  * limitations under the License.
  */
 
-package com.base.game;
+package com.base.engine.physics;
 
-import com.base.engine.core.CoreEngine;
-import com.base.engine.physics.PhysicsEngine;
+import com.base.engine.core.GameObject;
+import com.base.engine.core.Vector3f;
 
-public class Main {
+public class RaycastOut {
 	
-	private static CoreEngine engine;
+	public boolean hit = false;
+	public GameObject hitObject;
+	public Vector3f hitPoint;
+	public Vector3f hitNormal;
 	
-	public static void main(String[] args) {
-		engine = new CoreEngine(1024, 768, 60, new PhysicsTestGame());
-		engine.CreateWindow("Modded 3D Game Engine", true);
-		engine.Start();
-	}
-	
-	public static PhysicsEngine Physics() {
-		return engine.getPhysicsEngine();
+	public RaycastOut(boolean hit, GameObject hitObject, Vector3f hitPoint, Vector3f hitNormal) {
+		this.hit = hit;
+		this.hitObject = hitObject;
+		this.hitPoint = hitPoint;
+		this.hitNormal = hitNormal;
 	}
 	
 }

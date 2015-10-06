@@ -161,6 +161,16 @@ public class GameObject {
 			component.OnIsColliding(other);
 	}
 	
+	public void OnCollide(GameObject other) {
+		for (GameComponent component : m_components)
+			component.OnCollide(other);
+	}
+	
+	public void OnSeparate(GameObject other) {
+		for (GameComponent component : m_components)
+			component.OnSeparate(other);
+	}
+	
 	public void AllColliderUpdateToJBullet(PhysicsEngine physicsEngine) {
 		for (GameObject child : m_children) {
 			child.AllColliderUpdateToJBullet(physicsEngine);

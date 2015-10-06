@@ -132,4 +132,9 @@ public class CoreEngine {
 	public RenderingEngine GetRenderingEngine() {
 		return m_renderingEngine;
 	}
+
+	public PhysicsEngine getPhysicsEngine() {
+		return m_physicsEngine;
+	}
+	
 }

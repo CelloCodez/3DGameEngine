@@ -59,4 +59,10 @@ public abstract class GameComponent {
 	
 	public void OnIsColliding(GameObject other) {
 	}
+
+	public void OnCollide(GameObject other) {
+	}
+
+	public void OnSeparate(GameObject other) {
+	}
 }

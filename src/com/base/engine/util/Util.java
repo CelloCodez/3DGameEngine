@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.base.engine.core;
+package com.base.engine.util;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
@@ -24,6 +24,10 @@ import java.util.ArrayList;
 
 import org.lwjgl.BufferUtils;
 
+import com.base.engine.core.Matrix4f;
+import com.base.engine.core.Quaternion;
+import com.base.engine.core.Vector2f;
+import com.base.engine.core.Vector3f;
 import com.base.engine.rendering.Vertex;
 
 public class Util {

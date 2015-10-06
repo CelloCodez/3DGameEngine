@@ -34,7 +34,7 @@ public class PhysicsTestGame extends Game {
 		AddObject(lightContainer);
 		
 		GameObject planePrefab = new PlanePrefab("Plane", 5, 5, 0f);
-		planePrefab.AddComponent(new TestComponent());
+//		planePrefab.AddComponent(new TestComponent());
 		AddObject(planePrefab);
 		
 		GameObject cube = new CubePrefab("FallingCube", 1, 1, 1, 10f);

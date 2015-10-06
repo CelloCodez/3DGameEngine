@@ -41,8 +41,8 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
-import com.base.engine.core.Util;
 import com.base.engine.rendering.resourceManagement.TextureResource;
+import com.base.engine.util.Util;
 
 public class Texture {
 	private static HashMap<String, TextureResource> s_loadedTextures = new HashMap<String, TextureResource>();

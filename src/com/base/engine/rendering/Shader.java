@@ -52,9 +52,9 @@ import com.base.engine.components.PointLight;
 import com.base.engine.components.SpotLight;
 import com.base.engine.core.Matrix4f;
 import com.base.engine.core.Transform;
-import com.base.engine.core.Util;
 import com.base.engine.core.Vector3f;
 import com.base.engine.rendering.resourceManagement.ShaderResource;
+import com.base.engine.util.Util;
 
 public class Shader {
 	private static HashMap<String, ShaderResource> s_loadedShaders = new HashMap<String, ShaderResource>();

@@ -20,6 +20,8 @@ import com.base.engine.components.GameComponent;
 import com.base.engine.core.Input;
 import com.base.engine.core.Vector2f;
 import com.base.engine.core.Vector3f;
+import com.base.engine.physics.RaycastOut;
+import com.base.game.Main;
 
 public class PlayerComponent extends GameComponent {
 	private static final Vector3f Y_AXIS = new Vector3f(0, 1, 0);
@@ -73,6 +75,16 @@ public class PlayerComponent extends GameComponent {
 		}
 		if (Input.GetMouseDown(0)) {
 			Input.SetCursor(false);
+			
+			// temporary raycast testing code
+			System.out.println("Click");
+			
+			// TODO better forward direction for player code
+			
+			RaycastOut raycast = Main.Physics().Raycast(GetTransform().GetPos(), (GetTransform().GetRot().Mul(GetParent().FindChild(m_childCameraName).GetTransform().GetRot())).GetForward(), 100f);
+			if (raycast.hit) {
+				System.out.println(raycast.hitObject.GetName() + " clicked");
+			}
 		}
 		
 		if (!Input.GetCursor()) {
