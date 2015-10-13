@@ -41,6 +41,18 @@ public class GameObject {
 		m_name = name;
 	}
 	
+	public void DebugOutputScene(int level) {
+		String out = "-";
+		for (int i = 0; i < level; i++) {
+			out += "-";
+		}
+		out += m_name;
+		System.out.println(out);
+		for (GameObject go : m_children) {
+			go.DebugOutputScene(level + 1);
+		}
+	}
+	
 	public void SetCollider(Collider col) {
 		m_collider = col;
 		m_collider.SetParentTransform(m_transform);

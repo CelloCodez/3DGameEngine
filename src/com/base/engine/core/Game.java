@@ -26,6 +26,13 @@ public abstract class Game {
 	public void Init() {
 	}
 	
+	public void DebugOutputScene() {
+		if (m_root == null)
+			m_root = new GameObject("_root");
+		
+		m_root.DebugOutputScene(0);
+	}
+	
 	public void Input(float delta) {
 		GetRootObject().InputAll(delta);
 	}

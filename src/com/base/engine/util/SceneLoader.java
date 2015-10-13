@@ -44,10 +44,6 @@ import com.base.engine.rendering.Mesh;
 
 public class SceneLoader {
 	
-	// TODO TODO TODO
-	// TODO 				Fix scene loading (I think something is wrong with directional light)
-	// TODO TODO TODO
-	
 	public static GameObject loadScene(String name) {
 		GameObject root = new GameObject("_root");
 		
@@ -55,13 +51,13 @@ public class SceneLoader {
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(name));
 			doc.getDocumentElement().normalize();
 			
-			System.out.println("Root element of doc xml " + name + " is " + doc.getDocumentElement().getNodeName());
-			
 			NodeList gameObjects = doc.getElementsByTagName("GameObject");
 			for (int i = 0; i < gameObjects.getLength(); i++) {
 				Node node = gameObjects.item(i);
 				
-				if (node.getNodeType() == Node.ELEMENT_NODE) {
+				// Not only check if element node, but also if it is belonging to the main GameObjects list
+				// this way, children don't get added twice, once as children, and again as GameObjects inside the root
+				if (node.getNodeType() == Node.ELEMENT_NODE && node.getParentNode().getNodeName().equals("GameObjects")) {
 					GameObject go = parseGameObject(node);
 					root.AddChild(go);
 				}
@@ -84,7 +80,6 @@ public class SceneLoader {
 		for (int i = 0; i < moreNodes.getLength(); i++) {
 			Node childNode = moreNodes.item(i);
 			if (childNode.getNodeType() == Node.ELEMENT_NODE) {
-				System.out.println(childNode.getNodeName());
 				if (childNode.getNodeName().equals("pos")) {
 					go.GetTransform().SetPos(parseVector3f(childNode));
 				} else if (childNode.getNodeName().equals("rot")) {
@@ -155,7 +150,6 @@ public class SceneLoader {
 								Vector3f color = new Vector3f(0, 0, 0);
 								for (int child = 0; child < componentNode.getChildNodes().getLength(); child++) {
 									Node childItem = componentNode.getChildNodes().item(child);
-									System.out.println(childNode.getNodeName());
 									if (childItem.getNodeType() == Node.ELEMENT_NODE) {
 										if (childItem.getNodeName().equals("color")) {
 											color = parseVector3f(childItem);
@@ -164,7 +158,6 @@ public class SceneLoader {
 								}
 								DirectionalLight comp = new DirectionalLight(color, intensity);
 								go.AddComponent(comp);
-								System.err.println("Unknown GameObject component: " + componentNode.getNodeName());
 							} else {
 								System.err.println("Unknown GameObject component: " + componentNode.getNodeName());
 							}
