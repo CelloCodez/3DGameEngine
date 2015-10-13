@@ -40,6 +40,22 @@ public class Quaternion {
 		this.m_w = cosHalfAngle;
 	}
 	
+	public Quaternion(Vector3f rot) {
+		// this works, i think
+		float x = (float) Math.toRadians(rot.GetX()) / 2.0f;
+		float y = (float) Math.toRadians(rot.GetY()) / 2.0f;
+		float z = (float) Math.toRadians(rot.GetZ()) / 2.0f;
+		
+		Quaternion q = new Quaternion(new Vector3f(1, 0, 0), x).Mul(new Quaternion(0, 0, 0, 1)).Normalized();
+		q = new Quaternion(new Vector3f(0, 1, 0), y).Mul(q).Normalized();
+		q = new Quaternion(new Vector3f(0, 0, 1), z).Mul(q).Normalized();
+		
+		this.m_x = q.GetX();
+		this.m_y = q.GetY();
+		this.m_z = q.GetZ();
+		this.m_w = q.GetW();
+	}
+	
 	public float Length() {
 		return (float) Math.sqrt(m_x * m_x + m_y * m_y + m_z * m_z + m_w * m_w);
 	}

@@ -66,6 +66,7 @@ public class CoreEngine {
 		double frameCounter = 0;
 		
 		m_game.Init();
+		m_game.SetEngine(this);
 		
 		m_game.InitializeColliders(m_physicsEngine);
 		

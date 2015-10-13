@@ -49,6 +49,18 @@ public abstract class Game {
 		return m_root;
 	}
 	
+	/**
+	 * Mainly for loading scenes
+	 * @param newRoot
+	 */
+	protected void SetRootObject(GameObject newRoot) {
+		if (newRoot == null) {
+			m_root = new GameObject("_root");
+		} else {
+			m_root = newRoot;
+		}
+	}
+	
 	public void SetEngine(CoreEngine engine) {
 		GetRootObject().SetEngine(engine);
 	}

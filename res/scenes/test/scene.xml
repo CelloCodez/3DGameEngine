@@ -1,0 +1,41 @@
+<GameObjects>
+	<GameObject name="Lights">
+		<pos x="0" y="0" z="0"></pos>
+		<rot x="-45" y="0" z="0"></rot>
+		<scale x="1" y="1" z="1"></scale>
+		<Components>
+			<DirectionalLight intensity="0.2">
+				<color x="1" y="1" z="1"></color></DirectionalLight></Components>
+		</GameObject>
+	<GameObject name="Plane">
+		<pos x="0" y="0" z="0"></pos>
+		<rot x="0" y="0" z="0"></rot>
+		<scale x="5" y="1" z="5"></scale>
+		<Collider type="Plane" width="5" length="5" mass="0"></Collider>
+		<Components>
+			<MeshRenderer material="DefaultMaterial" objFile="plane.obj">
+				</MeshRenderer></Components>
+		</GameObject>
+	<GameObject name="FallingCube">
+		<pos x="2" y="100" z="2"></pos>
+		<rot x="40" y="45" z="15"></rot>
+		<scale x="1" y="1" z="1"></scale>
+		<Collider type="Cube" width="1" height="1" length="1" mass="10"></Collider>
+		<Components>
+			<MeshRenderer material="DefaultMaterial" objFile="cube.obj">
+			</MeshRenderer></Components>
+	</GameObject>
+	<GameObject name = "Player">
+		<pos x="0" y="10" z="0"></pos>
+		<rot x="0" y="0" z="0"></rot>
+		<scale x="1" y="1" z="1"></scale>
+		<Collider type="Capsule" radius="1" height="3" mass="10"></Collider>
+		<Components>
+			<PlayerComponent sensitivity="0.5" speed="5"></PlayerComponent></Components>
+		<Children>
+			<GameObject name="PrefabPlayerCamera">
+				<pos x="0" y="0" z="0"></pos>
+				<rot x="0" y="0" z="0"></rot>
+				<scale x="1" y="1" z="1"></scale>
+				<Components>
+					<Camera fovInDegrees="70" zNear="0.01" zFar="1000"></Camera></Components></GameObject></Children></GameObject></GameObjects>

@@ -24,25 +24,27 @@ import com.base.engine.core.Vector3f;
 import com.base.engine.prefabs.CubePrefab;
 import com.base.engine.prefabs.PlanePrefab;
 import com.base.engine.prefabs.PlayerPrefab;
+import com.base.engine.util.SceneLoader;
 
 public class PhysicsTestGame extends Game {
 	public void Init() {
 		
-		GameObject lightContainer = new GameObject("Lights");
-		lightContainer.AddComponent(new DirectionalLight(new Vector3f(1f, 1f, 1f), 0.2f));
-		lightContainer.GetTransform().SetRot(new Quaternion(new Vector3f(1, 0, 0), (float) Math.toRadians(-45)));
-		AddObject(lightContainer);
+		SetRootObject(SceneLoader.loadScene("./res/scenes/test/scene.xml"));
 		
-		GameObject planePrefab = new PlanePrefab("Plane", 5, 5, 0f);
-//		planePrefab.AddComponent(new TestComponent());
-		AddObject(planePrefab);
-		
-		GameObject cube = new CubePrefab("FallingCube", 1, 1, 1, 10f);
-		cube.GetTransform().SetPos(new Vector3f(2f, 100f, 2f));
-		cube.GetTransform().SetRot(new Quaternion(new Vector3f(40, 0, 0), 0));
-		AddObject(cube);
-		
-		GameObject player = new PlayerPrefab("Player", new Vector3f(0, 10, 0));
-		AddObject(player);
+//		GameObject lightContainer = new GameObject("Lights");
+//		lightContainer.AddComponent(new DirectionalLight(new Vector3f(1f, 1f, 1f), 0.2f));
+//		lightContainer.GetTransform().SetRot(new Quaternion(new Vector3f(-45, 0, 0)));
+//		AddObject(lightContainer);
+//		
+//		GameObject planePrefab = new PlanePrefab("Plane", 5, 5, 0f);
+//		AddObject(planePrefab);
+//		
+//		GameObject cube = new CubePrefab("FallingCube", 1, 1, 1, 10f);
+//		cube.GetTransform().SetPos(new Vector3f(2f, 100f, 2f));
+//		cube.GetTransform().SetRot(new Quaternion(new Vector3f(40f, 45f, 15f)));
+//		AddObject(cube);
+//		
+//		GameObject player = new PlayerPrefab("Player", new Vector3f(0, 10, 0));
+//		AddObject(player);
 	}
 }
