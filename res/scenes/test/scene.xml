@@ -10,8 +10,8 @@
 	<GameObject name="Plane">
 		<pos x="0" y="0" z="0"></pos>
 		<rot x="0" y="0" z="0"></rot>
-		<scale x="5" y="1" z="5"></scale>
-		<Collider type="Plane" width="5" length="5" mass="0"></Collider>
+		<scale x="10" y="1" z="10"></scale>
+		<Collider type="Plane" width="10" length="10" mass="0"></Collider>
 		<Components>
 			<MeshRenderer material="DefaultMaterial" objFile="plane.obj">
 				</MeshRenderer></Components>
@@ -23,6 +23,15 @@
 		<Collider type="Cube" width="1" height="1" length="1" mass="10"></Collider>
 		<Components>
 			<MeshRenderer material="DefaultMaterial" objFile="cube.obj">
+			</MeshRenderer></Components>
+	</GameObject>
+	<GameObject name="FallingMonkey">
+		<pos x="-1" y="100" z="2"></pos>
+		<rot x="0" y="0" z="0"></rot>
+		<scale x="1" y="1" z="1"></scale>
+		<Collider type="Mesh" objFile="./res/models/monkey3.obj" mass="10"></Collider>
+		<Components>
+			<MeshRenderer material="DefaultMaterial" objFile="monkey3.obj">
 			</MeshRenderer></Components>
 	</GameObject>
 	<GameObject name = "Player">

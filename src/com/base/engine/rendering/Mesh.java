@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2014 Benny Bobaganoosh
+ * Copyright (C) 2015 CelloCodez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,56 +30,45 @@ import static org.lwjgl.opengl.GL20.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Mesh
-{
+public class Mesh {
 	private static HashMap<String, MeshResource> s_loadedModels = new HashMap<String, MeshResource>();
 	private MeshResource m_resource;
-	private String       m_fileName;
+	private String m_fileName;
 	
-	public Mesh(String fileName)
-	{
+	public Mesh(String fileName) {
 		this.m_fileName = fileName;
 		MeshResource oldResource = s_loadedModels.get(fileName);
-
-		if(oldResource != null)
-		{
+		
+		if (oldResource != null) {
 			m_resource = oldResource;
 			m_resource.AddReference();
-		}
-		else
-		{
+		} else {
 			LoadMesh(fileName);
 			s_loadedModels.put(fileName, m_resource);
 		}
 	}
 	
-	public Mesh(Vertex[] vertices, int[] indices)
-	{
+	public Mesh(Vertex[] vertices, int[] indices) {
 		this(vertices, indices, false);
 	}
 	
-	public Mesh(Vertex[] vertices, int[] indices, boolean calcNormals)
-	{
+	public Mesh(Vertex[] vertices, int[] indices, boolean calcNormals) {
 		m_fileName = "";
 		AddVertices(vertices, indices, calcNormals);
 	}
-
+	
 	@Override
-	protected void finalize()
-	{
-		if(m_resource.RemoveReference() && !m_fileName.isEmpty())
-		{
+	protected void finalize() {
+		if (m_resource.RemoveReference() && !m_fileName.isEmpty()) {
 			s_loadedModels.remove(m_fileName);
 		}
 	}
 	
-	private void AddVertices(Vertex[] vertices, int[] indices, boolean calcNormals)
-	{
-		if(calcNormals)
-		{
+	private void AddVertices(Vertex[] vertices, int[] indices, boolean calcNormals) {
+		if (calcNormals) {
 			CalcNormals(vertices, indices);
 		}
-
+		
 		m_resource = new MeshResource(indices.length);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, m_resource.GetVbo());
@@ -88,8 +78,7 @@ public class Mesh
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, Util.CreateFlippedBuffer(indices), GL_STATIC_DRAW);
 	}
 	
-	public void Draw()
-	{
+	public void Draw() {
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
@@ -110,10 +99,8 @@ public class Mesh
 		glDisableVertexAttribArray(3);
 	}
 	
-	private void CalcNormals(Vertex[] vertices, int[] indices)
-	{
-		for(int i = 0; i < indices.length; i += 3)
-		{
+	private void CalcNormals(Vertex[] vertices, int[] indices) {
+		for (int i = 0; i < indices.length; i += 3) {
 			int i0 = indices[i];
 			int i1 = indices[i + 1];
 			int i2 = indices[i + 2];
@@ -128,41 +115,35 @@ public class Mesh
 			vertices[i2].SetNormal(vertices[i2].GetNormal().Add(normal));
 		}
 		
-		for(int i = 0; i < vertices.length; i++)
+		for (int i = 0; i < vertices.length; i++)
 			vertices[i].SetNormal(vertices[i].GetNormal().Normalized());
 	}
 	
-	private Mesh LoadMesh(String fileName)
-	{
+	private Mesh LoadMesh(String fileName) {
 		String[] splitArray = fileName.split("\\.");
 		String ext = splitArray[splitArray.length - 1];
-
-		if(!ext.equals("obj"))
-		{
+		
+		if (!ext.equals("obj")) {
 			System.err.println("Error: '" + ext + "' file format not supported for mesh data.");
 			new Exception().printStackTrace();
 			System.exit(1);
 		}
-
+		
 		OBJModel test = new OBJModel("./res/models/" + fileName);
 		IndexedModel model = test.ToIndexedModel();
-
+		
 		ArrayList<Vertex> vertices = new ArrayList<Vertex>();
-
-		for(int i = 0; i < model.GetPositions().size(); i++)
-		{
-			vertices.add(new Vertex(model.GetPositions().get(i),
-					model.GetTexCoords().get(i),
-					model.GetNormals().get(i),
-					model.GetTangents().get(i)));
+		
+		for (int i = 0; i < model.GetPositions().size(); i++) {
+			vertices.add(new Vertex(model.GetPositions().get(i), model.GetTexCoords().get(i), model.GetNormals().get(i), model.GetTangents().get(i)));
 		}
-
+		
 		Vertex[] vertexData = new Vertex[vertices.size()];
 		vertices.toArray(vertexData);
-
+		
 		Integer[] indexData = new Integer[model.GetIndices().size()];
 		model.GetIndices().toArray(indexData);
-
+		
 		AddVertices(vertexData, Util.ToIntArray(indexData), false);
 		
 		return this;

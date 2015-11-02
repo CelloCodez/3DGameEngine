@@ -36,11 +36,13 @@ import com.base.engine.core.Quaternion;
 import com.base.engine.core.Vector3f;
 import com.base.engine.physics.CapsuleCollider;
 import com.base.engine.physics.CubeCollider;
+import com.base.engine.physics.MeshCollider;
 import com.base.engine.physics.PlaneCollider;
 import com.base.engine.prefabs.DefaultMaterial;
 import com.base.engine.prefabs.PlayerComponent;
 import com.base.engine.rendering.Material;
 import com.base.engine.rendering.Mesh;
+import com.base.engine.rendering.meshLoading.OBJModel;
 
 public class SceneLoader {
 	
@@ -102,6 +104,11 @@ public class SceneLoader {
 						float mass = Float.parseFloat(childElement.getAttribute("mass"));
 						PlaneCollider col = new PlaneCollider(mass, width, length);
 						go.SetCollider(col);
+					} else if (childElement.getAttribute("type").equals("Mesh")) {
+						String objFile = childElement.getAttribute("objFile");
+						float mass = Float.parseFloat(childElement.getAttribute("mass"));
+						MeshCollider col = new MeshCollider(mass, new OBJModel(objFile).ToIndexedModel());
+						go.SetCollider(col);
 					} else if (childElement.getAttribute("type").equals("Cube")) {
 						float width = Float.parseFloat(childElement.getAttribute("width"));
 						float height = Float.parseFloat(childElement.getAttribute("height"));
@@ -135,6 +142,7 @@ public class SceneLoader {
 								Camera comp = new Camera(fovInDegrees, zNear, zFar);
 								go.AddComponent(comp);
 							} else if (componentNode.getNodeName().equals("MeshRenderer")) {
+								@SuppressWarnings("unused")
 								String materialName = componentElement.getAttribute("material");
 								String objFile = componentElement.getAttribute("objFile");
 								Material mat = new DefaultMaterial();
