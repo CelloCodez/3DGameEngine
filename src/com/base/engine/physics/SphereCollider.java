@@ -20,24 +20,20 @@ import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 
 import com.base.engine.util.Util;
-import com.bulletphysics.collision.shapes.BoxShape;
 import com.bulletphysics.collision.shapes.CollisionShape;
+import com.bulletphysics.collision.shapes.SphereShape;
 import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.dynamics.RigidBodyConstructionInfo;
 import com.bulletphysics.linearmath.DefaultMotionState;
 import com.bulletphysics.linearmath.Transform;
 
-public class CubeCollider extends Collider {
+public class SphereCollider extends Collider {
 	
-	private float m_width;
-	private float m_height;
-	private float m_length;
+	private float m_radius;
 	
-	public CubeCollider(float mass, float width, float height, float length) {
+	public SphereCollider(float mass, float radius) {
 		super(mass);
-		m_width = width;
-		m_height = height;
-		m_length = length;
+		m_radius = radius;
 	}
 	
 	@Override
@@ -45,7 +41,7 @@ public class CubeCollider extends Collider {
 		m_transform = new Transform();
 		m_transform.set(GetTransform().GetTransformationIdentityScale().toVecmath());
 		DefaultMotionState mState = new DefaultMotionState(m_transform);
-		CollisionShape shape = new BoxShape(new Vector3f(m_width, m_height, m_length));
+		CollisionShape shape = new SphereShape(m_radius);
 		Vector3f inertia = new Vector3f(0, 0, 0);
 		shape.calculateLocalInertia(m_mass, inertia);
 		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, inertia);
@@ -54,7 +50,7 @@ public class CubeCollider extends Collider {
 		
 		m_rigidbody.setCcdMotionThreshold(1f);
 		m_rigidbody.setCcdSweptSphereRadius(0.2f);
-
+		
 		physicsEngine.addRigidBody(m_rigidbody, GetParent());
 	}
 	
@@ -99,7 +95,7 @@ public class CubeCollider extends Collider {
 		float rest = m_rigidbody.getRestitution();
 		
 		DefaultMotionState mState = new DefaultMotionState(m_transform);
-		CollisionShape shape = new BoxShape(new Vector3f(m_width, m_height, m_length));
+		CollisionShape shape = new SphereShape(m_radius);
 		Vector3f inertia = new Vector3f(0, 0, 0);
 		shape.calculateLocalInertia(m_mass, inertia);
 		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, inertia);
@@ -110,7 +106,7 @@ public class CubeCollider extends Collider {
 		
 		m_rigidbody.setCcdMotionThreshold(1f);
 		m_rigidbody.setCcdSweptSphereRadius(0.2f);
-
+		
 		physicsEngine.addRigidBody(m_rigidbody, GetParent());
 	}
 	

@@ -25,7 +25,7 @@ public class Main {
 	private static CoreEngine engine;
 	
 	public static void main(String[] args) {
-		engine = new CoreEngine(1024, 768, 60, new PhysicsTestGame());
+		engine = new CoreEngine(1200, 800, 60, new LoadSceneGame());
 		engine.CreateWindow("Modded 3D Game Engine", true);
 		engine.Start();
 	}

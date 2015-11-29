@@ -95,7 +95,7 @@ public class PlaneCollider extends Collider {
 		float rest = m_rigidbody.getRestitution();
 		
 		DefaultMotionState mState = new DefaultMotionState(m_transform);
-		CollisionShape shape = new BoxShape(new Vector3f(m_width / 2f, 0.2f, m_length / 2f));
+		CollisionShape shape = new BoxShape(new Vector3f(m_width, 0.2f, m_length));
 		Vector3f inertia = new Vector3f(0, 0, 0);
 		shape.calculateLocalInertia(m_mass, inertia);
 		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, inertia);

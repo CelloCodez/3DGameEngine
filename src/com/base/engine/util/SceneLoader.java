@@ -38,6 +38,7 @@ import com.base.engine.physics.CapsuleCollider;
 import com.base.engine.physics.CubeCollider;
 import com.base.engine.physics.MeshCollider;
 import com.base.engine.physics.PlaneCollider;
+import com.base.engine.physics.SphereCollider;
 import com.base.engine.prefabs.DefaultMaterial;
 import com.base.engine.prefabs.PlayerComponent;
 import com.base.engine.rendering.Material;
@@ -104,10 +105,10 @@ public class SceneLoader {
 						float mass = Float.parseFloat(childElement.getAttribute("mass"));
 						PlaneCollider col = new PlaneCollider(mass, width, length);
 						go.SetCollider(col);
-					} else if (childElement.getAttribute("type").equals("Mesh")) {
-						String objFile = childElement.getAttribute("objFile");
+					} else if (childElement.getAttribute("type").equals("Sphere")) {
+						float radius = Float.parseFloat(childElement.getAttribute("radius"));
 						float mass = Float.parseFloat(childElement.getAttribute("mass"));
-						MeshCollider col = new MeshCollider(mass, new OBJModel(objFile).ToIndexedModel());
+						SphereCollider col = new SphereCollider(mass, radius);
 						go.SetCollider(col);
 					} else if (childElement.getAttribute("type").equals("Cube")) {
 						float width = Float.parseFloat(childElement.getAttribute("width"));
@@ -121,6 +122,11 @@ public class SceneLoader {
 						float height = Float.parseFloat(childElement.getAttribute("height"));
 						float mass = Float.parseFloat(childElement.getAttribute("mass"));
 						CapsuleCollider col = new CapsuleCollider(mass, radius, height);
+						go.SetCollider(col);
+					} else if (childElement.getAttribute("type").equals("Mesh")) {
+						String objFile = childElement.getAttribute("objFile");
+						float mass = Float.parseFloat(childElement.getAttribute("mass"));
+						MeshCollider col = new MeshCollider(mass, new OBJModel(objFile).ToIndexedModel());
 						go.SetCollider(col);
 					} else {
 						System.err.println("Unknown Collider type: " + childElement.getAttribute("type"));

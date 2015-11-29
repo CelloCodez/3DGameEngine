@@ -17,19 +17,19 @@
 				</MeshRenderer></Components>
 		</GameObject>
 	<GameObject name="FallingCube">
-		<pos x="2" y="100" z="2"></pos>
+		<pos x="2" y="3" z="2"></pos>
 		<rot x="40" y="45" z="15"></rot>
 		<scale x="1" y="1" z="1"></scale>
-		<Collider type="Cube" width="1" height="1" length="1" mass="10"></Collider>
+		<Collider type="Cube" width="1" height="1" length="1" mass="2"></Collider>
 		<Components>
 			<MeshRenderer material="DefaultMaterial" objFile="cube.obj">
 			</MeshRenderer></Components>
 	</GameObject>
 	<GameObject name="FallingMonkey">
-		<pos x="-1" y="100" z="2"></pos>
+		<pos x="-1" y="6" z="2"></pos>
 		<rot x="0" y="0" z="0"></rot>
 		<scale x="1" y="1" z="1"></scale>
-		<Collider type="Mesh" objFile="./res/models/monkey3.obj" mass="10"></Collider>
+		<Collider type="Sphere" radius="1" mass="3"></Collider>
 		<Components>
 			<MeshRenderer material="DefaultMaterial" objFile="monkey3.obj">
 			</MeshRenderer></Components>

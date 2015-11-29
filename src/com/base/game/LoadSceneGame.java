@@ -19,7 +19,7 @@ package com.base.game;
 import com.base.engine.core.Game;
 import com.base.engine.util.SceneLoader;
 
-public class PhysicsTestGame extends Game {
+public class LoadSceneGame extends Game {
 	
 	public void Init() {
 		SetRootObject(SceneLoader.loadScene("./res/scenes/test/scene.xml"));
