@@ -23,7 +23,10 @@ import com.base.engine.core.Vector3f;
 import com.base.engine.rendering.Window;
 
 public class Camera extends GameComponent {
+	
 	private Matrix4f m_projection;
+	
+	private float m_fovInDegrees = 70;
 	
 	public Camera(Matrix4f projection) {
 		this.m_projection = projection;
@@ -31,6 +34,7 @@ public class Camera extends GameComponent {
 	
 	public Camera(float fovInDegrees, float zNear, float zFar) {
 		this(new Matrix4f().InitPerspective((float) Math.toRadians(fovInDegrees), (float) Window.GetWidth() / (float) Window.GetHeight(), zNear, zFar));
+		this.m_fovInDegrees = fovInDegrees;
 	}
 	
 	public Matrix4f GetViewProjection() {
@@ -45,5 +49,9 @@ public class Camera extends GameComponent {
 	@Override
 	public void AddToEngine(CoreEngine engine) {
 		engine.GetRenderingEngine().AddCamera(this);
+	}
+	
+	public float GetFovInDegrees() {
+		return m_fovInDegrees;
 	}
 }

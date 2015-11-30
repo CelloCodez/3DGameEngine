@@ -16,12 +16,18 @@
 
 package com.base.engine.prefabs;
 
+import org.lwjgl.input.Mouse;
+
+import com.base.engine.components.Camera;
 import com.base.engine.components.GameComponent;
+import com.base.engine.core.GameObject;
 import com.base.engine.core.Input;
 import com.base.engine.core.Vector2f;
 import com.base.engine.core.Vector3f;
 import com.base.engine.physics.RaycastOut;
+import com.base.engine.rendering.Window;
 import com.base.game.Main;
+import com.base.game.Vars;
 
 public class PlayerComponent extends GameComponent {
 	private static final Vector3f Y_AXIS = new Vector3f(0, 1, 0);
@@ -39,6 +45,12 @@ public class PlayerComponent extends GameComponent {
 	private int m_rightKey;
 	private int m_jumpKey;
 	
+	// devmode variables
+	private GameObject m_dev_selectedGO = null;
+	private float m_devtemp_mass = 0;
+	private int m_dev_upkey;
+	private int m_dev_downkey;
+	
 	/**
 	 * @param sensitivity Mouse Sensitivity
 	 * @param speed Default Movement Speed
@@ -52,6 +64,8 @@ public class PlayerComponent extends GameComponent {
 		this.m_leftKey = Input.KEY_A;
 		this.m_rightKey = Input.KEY_D;
 		this.m_jumpKey = Input.KEY_SPACE;
+		this.m_dev_upkey = Input.KEY_E;
+		this.m_dev_downkey = Input.KEY_Q;
 	}
 	
 	public void SetSensitivity(float sensitivity) {
@@ -70,15 +84,68 @@ public class PlayerComponent extends GameComponent {
 	public void Input(float delta) {
 		// looking/camera code
 		
+		// devmode enable/disable check
+		if (Input.GetKeyDown(Input.KEY_F12)) {
+			// check for other keys to enable devmode
+			if (Input.GetKey(Input.KEY_LCONTROL) && Input.GetKey(Input.KEY_SPACE)) {
+				Vars.flipBool("devmode");
+				Vars.output("devmode");
+				if (Vars.varBool("devmode")) {
+					System.out.println("Disabling player physics for devmode");
+					m_devtemp_mass = GetParent().GetCollider().GetMass();
+					GetParent().GetCollider().SetMass(0);
+				} else {
+					System.out.println("Enabling player physics");
+					GetParent().GetCollider().SetMass(m_devtemp_mass);
+				}
+			}
+		}
+		
 		if (Input.GetKey(m_unlockMouseKey)) {
 			Input.SetCursor(true);
 		}
 		if (Input.GetMouseDown(0)) {
-			Input.SetCursor(false);
+			if (!Vars.varBool("devmode")) {
+				Input.SetCursor(false);
+			}
 			
-			RaycastOut raycast = Main.Physics().Raycast(GetTransform().GetPos(), GetParent().FindChild(m_childCameraName).GetTransform().GetTransformedRot().GetForward(), 100f);
-			if (raycast.hit) {
-				System.out.println(raycast.hitObject.GetName() + " clicked");
+			if (Vars.varBool("devmode")) {
+				// use mouse position in raycast
+				Vector3f camDir = GetParent().FindChild(m_childCameraName).GetTransform().GetTransformedRot().GetForward();
+				Vector3f camDirUp = GetParent().FindChild(m_childCameraName).GetTransform().GetTransformedRot().GetUp();
+				Vector3f camDirRight = GetParent().FindChild(m_childCameraName).GetTransform().GetTransformedRot().GetRight();
+				float mx = ((float) Mouse.getX() * 2 / Window.GetWidth()) - 1;
+				float my = ((float) Mouse.getY() * 2 / Window.GetHeight()) - 1;
+				System.out.println("mx " + mx);
+				System.out.println("my " + my);
+				
+				float fov = ((Camera) (GetParent().FindChild(m_childCameraName).GetComponent(Camera.class))).GetFovInDegrees();
+				// TODO perspective/fov correction then implement a better
+				// mouse position raycast instead of doing it here on the spot
+				mx = mx * (fov / 90);
+				Vector3f rayDir = camDir.Rotate(camDirUp, mx);
+				rayDir = rayDir.Rotate(camDirRight, my);
+				
+				RaycastOut raycast = Main.Physics().Raycast(GetTransform().GetPos(), camDir.Add(rayDir), 100f);
+				if (raycast.hit) {
+					m_dev_selectedGO = raycast.hitObject;
+					System.out.println(raycast.hitObject.GetName() + " selected");
+				}
+			} else {
+				RaycastOut raycast = Main.Physics().Raycast(GetTransform().GetPos(), GetParent().FindChild(m_childCameraName).GetTransform().GetTransformedRot().GetForward(), 100f);
+				if (raycast.hit) {
+					System.out.println(raycast.hitObject.GetName() + " clicked");
+				}
+			}
+		}
+		
+		// devmode look
+		if (Vars.varBool("devmode")) {
+			if (Input.GetMouse(1)) {
+				if (Input.GetCursor())
+					Input.SetCursor(false);
+			} else {
+				Input.SetCursor(true);
 			}
 		}
 		
@@ -106,6 +173,15 @@ public class PlayerComponent extends GameComponent {
 			Move(GetTransform().GetRot().GetLeft(), movAmt);
 		if (Input.GetKey(m_rightKey))
 			Move(GetTransform().GetRot().GetRight(), movAmt);
+		
+		// devmode controls
+		if (Vars.varBool("devmode")) {
+			// devmode vertical movement/flying
+			if (Input.GetKey(m_dev_upkey))
+				Move(Y_AXIS, movAmt);
+			if (Input.GetKey(m_dev_downkey))
+				Move(Y_AXIS, -movAmt);
+		}
 		
 		// makeshift jumping
 		if (Input.GetKeyDown(m_jumpKey))

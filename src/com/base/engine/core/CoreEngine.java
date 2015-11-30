@@ -17,9 +17,12 @@
 
 package com.base.engine.core;
 
+import java.util.HashMap;
+
 import com.base.engine.physics.PhysicsEngine;
 import com.base.engine.rendering.RenderingEngine;
 import com.base.engine.rendering.Window;
+import com.base.game.Vars;
 
 public class CoreEngine {
 	private boolean m_isRunning;
@@ -30,12 +33,22 @@ public class CoreEngine {
 	private int m_height;
 	private double m_frameTime;
 	
+	public static HashMap<String, String> VARS = new HashMap<String, String>();
+	
 	public CoreEngine(int width, int height, double framerate, Game game) {
 		this.m_isRunning = false;
 		this.m_game = game;
 		this.m_width = width;
 		this.m_height = height;
 		this.m_frameTime = 1.0 / framerate;
+		
+		// Check to initialize VARS
+		if (Vars.VARS_NEEDINIT) {
+			Vars.VARS_NEEDINIT = false;
+			// Initialize VARS
+			Vars.initVars();
+		}
+		
 		game.SetEngine(this);
 	}
 	
@@ -133,7 +146,7 @@ public class CoreEngine {
 	public RenderingEngine GetRenderingEngine() {
 		return m_renderingEngine;
 	}
-
+	
 	public PhysicsEngine getPhysicsEngine() {
 		return m_physicsEngine;
 	}

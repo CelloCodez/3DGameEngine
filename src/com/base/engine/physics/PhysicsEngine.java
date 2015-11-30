@@ -79,9 +79,7 @@ public class PhysicsEngine {
 		ClosestRayResultCallback res = new ClosestRayResultCallback(start.toVecmath(), end.toVecmath());
 		m_dynamicsWorld.rayTest(start.toVecmath(), end.toVecmath(), res);
 		RaycastOut out = new RaycastOut(false, null, null, null);
-		System.out.println("Raycasting");
 		if (res.hasHit()) {
-			System.out.println("Raycast hit something");
 			out = new RaycastOut(true, ((GameObject) res.collisionObject.getUserPointer()), Util.fromJavaxVector3f(res.hitPointWorld), Util.fromJavaxVector3f(res.hitNormalWorld));
 		}
 		return out;
