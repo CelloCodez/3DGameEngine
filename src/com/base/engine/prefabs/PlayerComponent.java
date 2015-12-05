@@ -17,6 +17,8 @@
 package com.base.engine.prefabs;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector4f;
 
 import com.base.engine.components.Camera;
 import com.base.engine.components.GameComponent;
@@ -26,6 +28,7 @@ import com.base.engine.core.Vector2f;
 import com.base.engine.core.Vector3f;
 import com.base.engine.physics.RaycastOut;
 import com.base.engine.rendering.Window;
+import com.base.engine.util.Util;
 import com.base.game.Main;
 import com.base.game.Vars;
 
@@ -119,14 +122,39 @@ public class PlayerComponent extends GameComponent {
 				System.out.println("mx " + mx);
 				System.out.println("my " + my);
 				
-				float fov = ((Camera) (GetParent().FindChild(m_childCameraName).GetComponent(Camera.class))).GetFovInDegrees();
-				// TODO perspective/fov correction then implement a better
-				// mouse position raycast instead of doing it here on the spot
-				mx = mx * (fov / 90);
-				Vector3f rayDir = camDir.Rotate(camDirUp, mx);
-				rayDir = rayDir.Rotate(camDirRight, my);
+				// Thank you, this assisted me very much:
+				// http://www.opengl-tutorial.org/miscellaneous/clicking-on-objects/picking-with-a-physics-library/
 				
-				RaycastOut raycast = Main.Physics().Raycast(GetTransform().GetPos(), camDir.Add(rayDir), 100f);
+				Vector4f rayStartNDC = new Vector4f(((float) mx / (float) Window.GetWidth() - 0.5f) * 2.0f, ((float) my / (float) Window.GetHeight() - 0.5f) * 2.0f, -1.0f, 1.0f);
+				Vector4f rayEndNDC = new Vector4f(((float) mx / (float) Window.GetWidth() - 0.5f) * 2.0f, ((float) my / (float) Window.GetHeight() - 0.5f) * 2.0f, 0.0f, 1.0f);
+				
+				com.base.engine.core.Matrix4f proj = ((Camera) GetParent().FindChild(m_childCameraName).GetComponent(Camera.class)).GetProjectionMatrix();
+				Matrix4f invProj = Util.toLWJGLMatrix4f(Util.lwjglInvert(proj));
+				com.base.engine.core.Matrix4f view = ((Camera) GetParent().FindChild(m_childCameraName).GetComponent(Camera.class)).GetViewProjection();
+				Matrix4f invView = Util.toLWJGLMatrix4f(Util.lwjglInvert(view));
+				
+				Vector4f rayStartCam = new Vector4f();
+				org.lwjgl.util.vector.Matrix4f.transform(invProj, rayStartNDC, rayStartCam);
+				rayStartCam.scale(1.0f / rayStartCam.getW());
+				Vector4f rayStartWorld = new Vector4f();
+				org.lwjgl.util.vector.Matrix4f.transform(invView, rayStartCam, rayStartWorld);
+				rayStartWorld.scale(1.0f / rayStartWorld.getW());
+				Vector4f rayEndCam = new Vector4f();
+				org.lwjgl.util.vector.Matrix4f.transform(invProj, rayEndNDC, rayEndCam);
+				rayEndCam.scale(1.0f / rayEndCam.getW());
+				Vector4f rayEndWorld = new Vector4f();
+				org.lwjgl.util.vector.Matrix4f.transform(invView, rayEndCam, rayEndWorld);
+				rayEndWorld.scale(1.0f / rayEndWorld.getW());
+				
+				org.lwjgl.util.vector.Vector4f rayDirSub = new org.lwjgl.util.vector.Vector4f();
+				org.lwjgl.util.vector.Vector4f.sub(rayEndWorld, rayStartWorld, rayDirSub);
+				org.lwjgl.util.vector.Vector3f rayDirWorld = new org.lwjgl.util.vector.Vector3f(rayDirSub.x, rayDirSub.y, rayDirSub.z);
+				rayDirWorld = rayDirWorld.normalise(rayDirWorld);
+				
+				Vector3f rayDir = Util.fromLWJGLVector3(rayDirWorld);
+				// TODO UGH JSBFK GDJKBKSAJDFHHKG
+				// TODO Get mouse picking working...somehow...
+				RaycastOut raycast = Main.Physics().Raycast(GetTransform().GetPos(), rayDir, 100f);
 				if (raycast.hit) {
 					m_dev_selectedGO = raycast.hitObject;
 					System.out.println(raycast.hitObject.GetName() + " selected");

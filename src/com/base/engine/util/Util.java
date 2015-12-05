@@ -32,6 +32,58 @@ import com.base.engine.rendering.Vertex;
 
 public class Util {
 	
+	public static Vector3f fromLWJGLVector3(org.lwjgl.util.vector.Vector3f vec3) {
+		return new Vector3f(vec3.x, vec3.y, vec3.z);
+	}
+	
+	public static Matrix4f lwjglInvert(Matrix4f m) {
+		return fromLWJGLMatrix4f((org.lwjgl.util.vector.Matrix4f) toLWJGLMatrix4f(m).invert());
+	}
+	
+	public static org.lwjgl.util.vector.Matrix4f toLWJGLMatrix4f(Matrix4f m) {
+		org.lwjgl.util.vector.Matrix4f res = new org.lwjgl.util.vector.Matrix4f();
+		res.m00 = m.GetM()[0][0];
+		res.m01 = m.GetM()[0][1];
+		res.m02 = m.GetM()[0][2];
+		res.m03 = m.GetM()[0][3];
+		res.m10 = m.GetM()[1][0];
+		res.m11 = m.GetM()[1][1];
+		res.m12 = m.GetM()[1][2];
+		res.m13 = m.GetM()[1][3];
+		res.m20 = m.GetM()[2][0];
+		res.m21 = m.GetM()[2][1];
+		res.m22 = m.GetM()[2][2];
+		res.m23 = m.GetM()[2][3];
+		res.m30 = m.GetM()[3][0];
+		res.m31 = m.GetM()[3][1];
+		res.m32 = m.GetM()[3][2];
+		res.m33 = m.GetM()[3][3];
+		return res;
+	}
+	
+	public static Matrix4f fromLWJGLMatrix4f(org.lwjgl.util.vector.Matrix4f m) {
+		Matrix4f res = new Matrix4f();
+		float[][] rm = new float[4][4];
+		rm[0][0] = m.m00;
+		rm[0][1] = m.m01;
+		rm[0][2] = m.m02;
+		rm[0][3] = m.m03;
+		rm[1][0] = m.m10;
+		rm[1][1] = m.m11;
+		rm[1][2] = m.m12;
+		rm[1][3] = m.m13;
+		rm[2][0] = m.m20;
+		rm[2][1] = m.m21;
+		rm[2][2] = m.m22;
+		rm[2][3] = m.m23;
+		rm[3][0] = m.m30;
+		rm[3][1] = m.m31;
+		rm[3][2] = m.m32;
+		rm[3][3] = m.m33;
+		res.SetM(rm);
+		return res;
+	}
+	
 	public static Vector2f fromJavaxVector2f(javax.vecmath.Vector2f old) {
 		return new Vector2f(old.x, old.y);
 	}
@@ -119,4 +171,5 @@ public class Util {
 		
 		return result;
 	}
+	
 }

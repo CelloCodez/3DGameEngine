@@ -54,4 +54,9 @@ public class Camera extends GameComponent {
 	public float GetFovInDegrees() {
 		return m_fovInDegrees;
 	}
+	
+	public Matrix4f GetProjectionMatrix() {
+		return m_projection;
+	}
+	
 }
