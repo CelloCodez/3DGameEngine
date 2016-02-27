@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 CelloCodez
+ * Copyright (C) 2015-2016 CelloCodez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ public class PlaneCollider extends Collider {
 		m_transform = new Transform();
 		m_transform.set(GetTransform().GetTransformationIdentityScale().toVecmath());
 		DefaultMotionState mState = new DefaultMotionState(m_transform);
-		CollisionShape shape = new BoxShape(new Vector3f(m_width, 0.2f, m_length));
+		CollisionShape shape = new BoxShape(new Vector3f(m_width, 0.1f, m_length));
 		Vector3f inertia = new Vector3f(0, 0, 0);
 		shape.calculateLocalInertia(m_mass, inertia);
 		RigidBodyConstructionInfo rbci = new RigidBodyConstructionInfo(m_mass, mState, shape, inertia);
@@ -52,7 +52,7 @@ public class PlaneCollider extends Collider {
 		
 		m_rigidbody.setCcdMotionThreshold(1f);
 		m_rigidbody.setCcdSweptSphereRadius(0.2f);
-
+		
 		physicsEngine.addRigidBody(m_rigidbody, GetParent());
 	}
 	
@@ -106,7 +106,7 @@ public class PlaneCollider extends Collider {
 		
 		m_rigidbody.setCcdMotionThreshold(1f);
 		m_rigidbody.setCcdSweptSphereRadius(0.2f);
-
+		
 		physicsEngine.addRigidBody(m_rigidbody, GetParent());
 	}
 	

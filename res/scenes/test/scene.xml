@@ -17,8 +17,8 @@
 				</MeshRenderer></Components>
 		</GameObject>
 	<GameObject name="FallingCube">
-		<pos x="2" y="3" z="2"></pos>
-		<rot x="40" y="45" z="15"></rot>
+		<pos x="2" y="5" z="2"></pos>
+		<rot x="40" y="45" z="25"></rot>
 		<scale x="1" y="1" z="1"></scale>
 		<Collider type="Cube" width="1" height="1" length="1" mass="2"></Collider>
 		<Components>

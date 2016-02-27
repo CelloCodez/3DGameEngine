@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2014 Benny Bobaganoosh
- * Copyright (C) 2015 CelloCodez
+ * Copyright (C) 2015-2016 CelloCodez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.GL_VERSION;
 
 public class RenderingEngine extends MappedValues {
 	private HashMap<String, Integer> m_samplerMap;
@@ -61,6 +60,8 @@ public class RenderingEngine extends MappedValues {
 		// glEnable(GL_DEPTH_CLAMP);
 		
 		glEnable(GL_TEXTURE_2D);
+		//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	}
 	
 	public void UpdateUniformStruct(Transform transform, Material material, Shader shader, String uniformName, String uniformType) {
@@ -69,7 +70,7 @@ public class RenderingEngine extends MappedValues {
 	
 	public void Render(GameObject object) {
 		if (GetMainCamera() == null)
-			System.err.println("Error! Main camera not found. This is a very very big bug, and game will crash.");
+			System.err.println("Error! Main camera not found. This is a very very big bug, and the game will crash.");
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		object.RenderAll(m_forwardAmbient, this);

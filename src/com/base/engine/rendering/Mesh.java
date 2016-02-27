@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2014 Benny Bobaganoosh
- * Copyright (C) 2015 CelloCodez
+ * Copyright (C) 2015-2016 CelloCodez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -143,6 +143,9 @@ public class Mesh {
 		
 		Integer[] indexData = new Integer[model.GetIndices().size()];
 		model.GetIndices().toArray(indexData);
+		
+		// TODO is this useful???
+		//		CalcNormals(vertexData, Util.ToIntArray(indexData));
 		
 		AddVertices(vertexData, Util.ToIntArray(indexData), false);
 		
