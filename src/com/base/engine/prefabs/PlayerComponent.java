@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 CelloCodez
+ * Copyright (C) 2015-2016 CelloCodez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,6 +49,7 @@ public class PlayerComponent extends GameComponent {
 	private int m_jumpKey;
 	
 	// devmode variables
+	@SuppressWarnings("unused")
 	private GameObject m_dev_selectedGO = null;
 	private float m_devtemp_mass = 0;
 	private int m_dev_upkey;
@@ -83,6 +84,7 @@ public class PlayerComponent extends GameComponent {
 		m_childCameraName = childCameraName;
 	}
 	
+	@SuppressWarnings("unused")
 	@Override
 	public void Input(float delta) {
 		// looking/camera code
@@ -177,6 +179,8 @@ public class PlayerComponent extends GameComponent {
 			}
 		}
 		
+		// rotation/look controls
+		
 		if (!Input.GetCursor()) {
 			Vector2f deltaPos = Input.GetMouseDynamicPosition();
 			boolean rotY = deltaPos.GetX() != 0;
@@ -198,7 +202,7 @@ public class PlayerComponent extends GameComponent {
 		if (Input.GetKey(m_backKey))
 			Move(GetTransform().GetRot().GetForward(), -movAmt);
 		if (Input.GetKey(m_leftKey))
-			Move(GetTransform().GetRot().GetLeft(), movAmt);
+			Move(GetTransform().GetRot().GetRight(), -movAmt);
 		if (Input.GetKey(m_rightKey))
 			Move(GetTransform().GetRot().GetRight(), movAmt);
 		
@@ -239,7 +243,7 @@ public class PlayerComponent extends GameComponent {
 	}
 	
 	public void Move(Vector3f dir, float amt) {
-		GetParent().GetCollider().Translate(dir.Mul(amt));
+		GetTransform().SetPos(GetTransform().GetPos().Add(dir.Mul(amt)));
 	}
 	
 }
