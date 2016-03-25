@@ -26,7 +26,6 @@ import com.base.engine.rendering.resourceManagement.MappedValues;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import static org.lwjgl.opengl.GL11.*;
 
 public class RenderingEngine extends MappedValues {
