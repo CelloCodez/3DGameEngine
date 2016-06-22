@@ -43,6 +43,7 @@ import com.base.engine.prefabs.DefaultMaterial;
 import com.base.engine.prefabs.PlayerComponent;
 import com.base.engine.rendering.Material;
 import com.base.engine.rendering.Mesh;
+import com.base.engine.rendering.Texture;
 import com.base.engine.rendering.meshLoading.OBJModel;
 
 public class SceneLoader {
@@ -148,14 +149,20 @@ public class SceneLoader {
 								Camera comp = new Camera(fovInDegrees, zNear, zFar);
 								go.AddComponent(comp);
 							} else if (componentNode.getNodeName().equals("MeshRenderer")) {
-								@SuppressWarnings("unused")
-								String materialName = componentElement.getAttribute("material");
+								String textureName = componentElement.getAttribute("texture");
 								String objFile = componentElement.getAttribute("objFile");
 								Material mat = new DefaultMaterial();
+								if (!textureName.equals("DefaultMaterial")) {
+									mat = new Material(new Texture(textureName), 1, 8, new Texture("black.png"), new Texture("black.png"), 0.02f, -0.4f);
+								}
 								
-								// TODO TODO TODO
-								// TODO 				Mess with shader system for multiple materials and shaders
-								// TODO TODO TODO
+								MeshRenderer comp = new MeshRenderer(new Mesh(objFile), mat);
+								go.AddComponent(comp);
+							} else if (componentNode.getNodeName().equals("MeshSkyboxRenderer")) {
+								String textureName = componentElement.getAttribute("texture");
+								String objFile = componentElement.getAttribute("objFile");
+								Material mat = new DefaultMaterial();
+								mat = new Material(new Texture(textureName), 0, 0, new Texture("black.png"), new Texture("black.png"), 0, 0);
 								
 								MeshRenderer comp = new MeshRenderer(new Mesh(objFile), mat);
 								go.AddComponent(comp);

@@ -7,13 +7,21 @@
 			<DirectionalLight intensity="0.2">
 				<color x="1" y="1" z="1"></color></DirectionalLight></Components>
 		</GameObject>
+	<GameObject name="Skybox">
+		<pos x="0" y="0" z="0"></pos>
+		<rot x="0" y="0" z="0"></rot>
+		<scale x="50" y="50" z="50"></scale>
+		<Components>
+			<MeshSkyboxRenderer texture="cubemaps_skybox_final.png" objFile="test.obj">
+				</MeshSkyboxRenderer></Components>
+		</GameObject>
 	<GameObject name="Plane">
 		<pos x="0" y="0" z="0"></pos>
 		<rot x="0" y="0" z="0"></rot>
 		<scale x="10" y="1" z="10"></scale>
 		<Collider type="Plane" width="10" length="10" mass="0"></Collider>
 		<Components>
-			<MeshRenderer material="DefaultMaterial" objFile="plane.obj">
+			<MeshRenderer texture="DefaultMaterial" objFile="plane.obj">
 				</MeshRenderer></Components>
 		</GameObject>
 	<GameObject name="FallingCube">
@@ -22,7 +30,7 @@
 		<scale x="1" y="1" z="1"></scale>
 		<Collider type="Cube" width="1" height="1" length="1" mass="2"></Collider>
 		<Components>
-			<MeshRenderer material="DefaultMaterial" objFile="cube.obj">
+			<MeshRenderer texture="DefaultMaterial" objFile="cube.obj">
 			</MeshRenderer></Components>
 	</GameObject>
 	<GameObject name="FallingMonkey">
@@ -31,7 +39,7 @@
 		<scale x="1" y="1" z="1"></scale>
 		<Collider type="Sphere" radius="1" mass="3"></Collider>
 		<Components>
-			<MeshRenderer material="DefaultMaterial" objFile="monkey3.obj">
+			<MeshRenderer texture="DefaultMaterial" objFile="monkey3.obj">
 			</MeshRenderer></Components>
 	</GameObject>
 	<GameObject name = "Player">
