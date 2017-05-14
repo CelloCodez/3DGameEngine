@@ -45,6 +45,7 @@ import com.base.engine.rendering.Material;
 import com.base.engine.rendering.Mesh;
 import com.base.engine.rendering.Texture;
 import com.base.engine.rendering.meshLoading.OBJModel;
+import com.base.game.SkyboxComponent;
 
 public class SceneLoader {
 	
@@ -147,6 +148,9 @@ public class SceneLoader {
 								float zNear = Float.parseFloat(componentElement.getAttribute("zNear"));
 								float zFar = Float.parseFloat(componentElement.getAttribute("zFar"));
 								Camera comp = new Camera(fovInDegrees, zNear, zFar);
+								go.AddComponent(comp);
+							} else if (componentNode.getNodeName().equals("SkyboxComponent")) {
+								SkyboxComponent comp = new SkyboxComponent();
 								go.AddComponent(comp);
 							} else if (componentNode.getNodeName().equals("MeshRenderer")) {
 								String textureName = componentElement.getAttribute("texture");

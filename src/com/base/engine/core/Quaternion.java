@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2014 Benny Bobaganoosh
- * Copyright (C) 2015 CelloCodez
+ * Copyright (C) 2015, 2017 CelloCodez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,9 +42,9 @@ public class Quaternion {
 	
 	public Quaternion(Vector3f rot) {
 		// this works, i think
-		float x = (float) Math.toRadians(rot.GetX()) / 2.0f;
-		float y = (float) Math.toRadians(rot.GetY()) / 2.0f;
-		float z = (float) Math.toRadians(rot.GetZ()) / 2.0f;
+		float x = (float) Math.toRadians(rot.GetX());
+		float y = (float) Math.toRadians(rot.GetY());
+		float z = (float) Math.toRadians(rot.GetZ());
 		
 		Quaternion q = new Quaternion(new Vector3f(1, 0, 0), x).Mul(new Quaternion(0, 0, 0, 1)).Normalized();
 		q = new Quaternion(new Vector3f(0, 1, 0), y).Mul(q).Normalized();

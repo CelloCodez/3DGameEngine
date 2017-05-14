@@ -5,15 +5,9 @@
 		<scale x="1" y="1" z="1"></scale>
 		<Components>
 			<DirectionalLight intensity="0.2">
-				<color x="1" y="1" z="1"></color></DirectionalLight></Components>
-		</GameObject>
-	<GameObject name="Skybox">
-		<pos x="0" y="0" z="0"></pos>
-		<rot x="0" y="0" z="0"></rot>
-		<scale x="50" y="50" z="50"></scale>
-		<Components>
-			<MeshSkyboxRenderer texture="cubemaps_skybox_final.png" objFile="test.obj">
-				</MeshSkyboxRenderer></Components>
+				<color x="1" y="1" z="1"></color>
+				</DirectionalLight>
+			</Components>
 		</GameObject>
 	<GameObject name="Plane">
 		<pos x="0" y="0" z="0"></pos>
@@ -21,8 +15,8 @@
 		<scale x="10" y="1" z="10"></scale>
 		<Collider type="Plane" width="10" length="10" mass="0"></Collider>
 		<Components>
-			<MeshRenderer texture="DefaultMaterial" objFile="plane.obj">
-				</MeshRenderer></Components>
+			<MeshRenderer texture="DefaultMaterial" objFile="plane.obj"></MeshRenderer>
+			</Components>
 		</GameObject>
 	<GameObject name="FallingCube">
 		<pos x="2" y="5" z="2"></pos>
@@ -30,29 +24,99 @@
 		<scale x="1" y="1" z="1"></scale>
 		<Collider type="Cube" width="1" height="1" length="1" mass="2"></Collider>
 		<Components>
-			<MeshRenderer texture="DefaultMaterial" objFile="cube.obj">
-			</MeshRenderer></Components>
-	</GameObject>
+			<MeshRenderer texture="DefaultMaterial" objFile="cube.obj"></MeshRenderer>
+			</Components>
+		</GameObject>
 	<GameObject name="FallingMonkey">
 		<pos x="-1" y="6" z="2"></pos>
 		<rot x="0" y="0" z="0"></rot>
 		<scale x="1" y="1" z="1"></scale>
 		<Collider type="Sphere" radius="1" mass="3"></Collider>
 		<Components>
-			<MeshRenderer texture="DefaultMaterial" objFile="monkey3.obj">
-			</MeshRenderer></Components>
-	</GameObject>
+			<MeshRenderer texture="DefaultMaterial" objFile="monkey3.obj"></MeshRenderer>
+			</Components>
+		</GameObject>
 	<GameObject name = "Player">
 		<pos x="0" y="10" z="0"></pos>
 		<rot x="0" y="0" z="0"></rot>
 		<scale x="1" y="1" z="1"></scale>
 		<Collider type="Capsule" radius="1" height="3" mass="10"></Collider>
 		<Components>
-			<PlayerComponent sensitivity="0.5" speed="5"></PlayerComponent></Components>
+			<PlayerComponent sensitivity="0.5" speed="5"></PlayerComponent>
+			</Components>
 		<Children>
 			<GameObject name="PrefabPlayerCamera">
 				<pos x="0" y="0" z="0"></pos>
 				<rot x="0" y="0" z="0"></rot>
 				<scale x="1" y="1" z="1"></scale>
 				<Components>
-					<Camera fovInDegrees="70" zNear="0.1" zFar="1000"></Camera></Components></GameObject></Children></GameObject></GameObjects>
+					<Camera fovInDegrees="70" zNear="0.1" zFar="1000"></Camera>
+					</Components>
+				</GameObject>
+			</Children>
+		</GameObject>
+	
+	//////
+	// skybox objects
+	//////
+	
+	<GameObject name="SkyboxPlane_dn">
+		<pos x="0" y="-400" z="0"></pos>
+		<rot x="0" y="0" z="0"></rot>
+		<scale x="400" y="1" z="400"></scale>
+		<Components>
+			<MeshRenderer texture="purplevalley/purplevalley_dn.png" objFile="plane.obj"></MeshRenderer>
+			<SkyboxComponent></SkyboxComponent>
+			</Components>
+		</GameObject>
+	<GameObject name="SkyboxPlane_up">
+		<pos x="0" y="400" z="0"></pos>
+		<rot x="180" y="0" z="0"></rot>
+		<scale x="400" y="1" z="400"></scale>
+		<Components>
+			<MeshRenderer texture="purplevalley/purplevalley_up.png" objFile="plane.obj"></MeshRenderer>
+			<SkyboxComponent></SkyboxComponent>
+			</Components>
+		</GameObject>
+	<GameObject name="SkyboxPlane_bk">
+		<pos x="0" y="0" z="-400"></pos>
+		<rot x="90" y="0" z="270"></rot>
+		<scale x="400" y="1" z="400"></scale>
+		<Components>
+			<MeshRenderer texture="purplevalley/purplevalley_bk.png" objFile="plane.obj"></MeshRenderer>
+			<SkyboxComponent></SkyboxComponent>
+			</Components>
+		</GameObject>
+	<GameObject name="SkyboxPlane_ft">
+		<pos x="0" y="0" z="400"></pos>
+		<rot x="270" y="0" z="270"></rot>
+		<scale x="400" y="1" z="400"></scale>
+		<Components>
+			<MeshRenderer texture="purplevalley/purplevalley_ft.png" objFile="plane.obj"></MeshRenderer>
+			<SkyboxComponent></SkyboxComponent>
+			</Components>
+		</GameObject>
+	<GameObject name="SkyboxPlane_lf">
+		<pos x="-400" y="0" z="0"></pos>
+		<rot x="0" y="0" z="270"></rot>
+		<scale x="400" y="1" z="400"></scale>
+		<Components>
+			<MeshRenderer texture="purplevalley/purplevalley_lf.png" objFile="plane.obj"></MeshRenderer>
+			<SkyboxComponent></SkyboxComponent>
+			</Components>
+		</GameObject>
+	<GameObject name="SkyboxPlane_rt">
+		<pos x="400" y="0" z="0"></pos>
+		<rot x="0" y="180" z="90"></rot>
+		<scale x="400" y="1" z="400"></scale>
+		<Components>
+			<MeshRenderer texture="purplevalley/purplevalley_rt.png" objFile="plane.obj"></MeshRenderer>
+			<SkyboxComponent></SkyboxComponent>
+			</Components>
+		</GameObject>
+	
+	//////
+	// end skybox
+	//////
+	
+</GameObjects>

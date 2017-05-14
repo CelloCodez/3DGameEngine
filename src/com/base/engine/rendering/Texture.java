@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2014 Benny Bobaganoosh
- * Copyright (C) 2015 CelloCodez
+ * Copyright (C) 2015, 2017 CelloCodez
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
+import com.base.engine.components.CubemapTextureData;
 import com.base.engine.rendering.resourceManagement.TextureResource;
 import com.base.engine.util.Util;
 
@@ -119,6 +120,39 @@ public class Texture {
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 			
 			return resource;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		return null;
+	}
+	
+	public static CubemapTextureData LoadTextureAsCubemap(String fileName) {
+		try {
+			BufferedImage image = ImageIO.read(new File("./res/textures/" + fileName));
+			int[] pixels = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
+			
+			ByteBuffer buffer = Util.CreateByteBuffer(image.getHeight() * image.getWidth() * 4);
+			boolean hasAlpha = image.getColorModel().hasAlpha();
+			
+			for (int y = 0; y < image.getHeight(); y++) {
+				for (int x = 0; x < image.getWidth(); x++) {
+					int pixel = pixels[y * image.getWidth() + x];
+					
+					buffer.put((byte) ((pixel >> 16) & 0xFF));
+					buffer.put((byte) ((pixel >> 8) & 0xFF));
+					buffer.put((byte) ((pixel) & 0xFF));
+					if (hasAlpha)
+						buffer.put((byte) ((pixel >> 24) & 0xFF));
+					else
+						buffer.put((byte) (0xFF));
+				}
+			}
+			
+			buffer.flip();
+			
+			return new CubemapTextureData(buffer, image.getWidth(), image.getHeight());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
